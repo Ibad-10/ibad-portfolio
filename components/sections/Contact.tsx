@@ -44,7 +44,7 @@ export function Contact() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.2 }}
           >
-            <p className="font-mono text-xl text-muted mb-6">// Find me here</p>
+            <p className="font-mono text-xl text-muted mb-6">{"// Find me here"}</p>
             {LINKS.map(({ label, href, display, color }, i) => (
               <motion.a
                 key={href}
