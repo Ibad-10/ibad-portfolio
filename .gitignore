@@ -34,5 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-Ibad_CV.pdf
-automated object retriver.mp4
+/Ibad_CV.pdf
+/automated object retriver.mp4
+!/public/Ibad_CV.pdf
+!/public/robot-demo.mp4
