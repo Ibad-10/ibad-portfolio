@@ -1,132 +1,122 @@
 "use client";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { CardSpotlight } from "@/components/aceternity/CardSpotlight";
-import { TiltCard } from "@/components/ui/TiltCard";
 
 const PROJECTS = [
   {
+    num: "01",
     name: "HackTheWallet",
-    desc: "Blockchain game where you convince an AI to give back your crypto. Built on Starknet.",
-    tags: ["Next.js", "Starknet", "Gemini AI", "TypeScript"],
+    desc: "A blockchain game on Starknet: connect your wallet, then convince an AI to give your crypto back. Uses Gemini 1.5 Flash with real trust-scoring. On-chain rewards, voice I/O, deployed on Sepolia testnet. Encode AI Hackathon — 1st Place.",
+    tags: ["Next.js", "Starknet", "Gemini 1.5 Flash", "Smart Contracts", "TypeScript"],
     url: "https://github.com/Sahid-m/HackTheWallet",
-    color: "#00ff9f",
-    contributed: true,
+    badge: "1st Place · Encode",
   },
   {
-    name: "luffa-ai-bot",
-    desc: "LangGraph multi-tool AI assistant integrated with Luffa Bot messaging platform.",
-    tags: ["Python", "LangGraph", "FastAPI", "LangChain"],
-    url: "https://github.com/Sahid-m/luffa-ai-bot",
-    color: "#ff2d78",
-    contributed: true,
+    num: "02",
+    name: "Go Fish",
+    desc: "Decentralised payment platform on Polkadot for the global fishing import/export industry. Smart contracts give exporters 97.5% of trade value instantly. Eliminates FX volatility and intermediary fees with stablecoin integration.",
+    tags: ["Next.js", "Polkadot", "Solidity", "TypeScript", "Smart Contracts"],
+    url: "https://github.com/Sahid-m",
+    badge: "EasyA x Polkadot",
   },
   {
-    name: "clipforge-ai",
-    desc: "AI-powered video clipping and editing tool built with TypeScript.",
-    tags: ["TypeScript", "AI", "Video"],
+    num: "03",
+    name: "StreamFlow",
+    desc: "Decentralised creator tipping platform built on Radix blockchain. Streamers receive tips directly from viewers with real-time analytics and on-chain transaction processing. Built at Radix Hack.",
+    tags: ["TypeScript", "React", "Rust", "Radix Blockchain"],
+    url: "https://github.com/Sahid-m/radix-hack",
+    badge: "1st Place · Radix Hack",
+  },
+  {
+    num: "04",
+    name: "Foodo-Baggins",
+    desc: "AI nutrition tracker that roasts your diet. Upload a meal photo — it analyses calories, gives personalised advice, posts a sarcastic comment about your food choices, and converts meals into sustainability Green Points. Royal Hackaway v8.",
+    tags: ["Next.js", "TypeScript", "MongoDB", "Ollama", "GenAI"],
+    url: "https://github.com/Sahid-m/foodo_baggins",
+    badge: "3rd · Verdn Track",
+  },
+  {
+    num: "05",
+    name: "Automated Object Retriever",
+    desc: "Autonomous robot achieving 95% item retrieval accuracy, reducing manual retrieval time by 70%. Built from scratch with Arduino, ultrasonic sensors, and embedded C — hardware and software as one.",
+    tags: ["Arduino", "Ultrasonic Sensor", "Embedded C", "Robotics"],
+    url: "#",
+    badge: "Hardware · 2024",
+  },
+  {
+    num: "06",
+    name: "ClipForge AI",
+    desc: "AI-powered video clipping tool. Feed it a long video, get back the best moments — cut, captioned, ready to post. Built for creators who don't have time to edit.",
+    tags: ["TypeScript", "AI", "Video Processing"],
     url: "https://github.com/Ibad-10/clipforge-ai",
-    color: "#00cfff",
-    contributed: false,
-  },
-  {
-    name: "Atmos_Task",
-    desc: "Supermarket checkout system with automated discount engine and SKU scanning.",
-    tags: ["C#", "OOP", "CLI"],
-    url: "https://github.com/Ibad-10/Atmos_Task",
-    color: "#ffd700",
-    contributed: false,
+    badge: "In Progress",
   },
 ];
 
 export function Projects() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="projects" ref={ref} className="snap-section flex items-center bg-bg px-6 py-20">
-      <div className="max-w-5xl mx-auto w-full">
-        <motion.h2
-          className="font-pixel text-primary text-lg md:text-2xl mb-10 glow-green"
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          &gt; PROJECTS<span className="animate-blink">_</span>
-        </motion.h2>
+    <section id="projects" ref={ref} className="bg-[#080808] px-6 md:px-12 py-24">
+      <motion.p
+        className="section-label mb-8"
+        initial={{ opacity: 0, x: -20 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+      >
+        [ 04 ] — Work
+      </motion.p>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {PROJECTS.map((project, i) => (
-            <motion.div
-              key={project.name}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.12, duration: 0.5 }}
+      <div className="grid md:grid-cols-2 gap-4 max-w-6xl">
+        {PROJECTS.map((project, i) => (
+          <motion.a
+            key={project.num}
+            href={project.url === "#" ? undefined : project.url}
+            target={project.url === "#" ? undefined : "_blank"}
+            rel="noopener noreferrer"
+            className="group block border border-white/5 p-6 hover:border-[#FF4D2D]/40 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: i * 0.1 }}
+          >
+            <div
+              className="absolute top-2 right-4 font-display font-black text-[80px] leading-none tracking-[-0.05em] pointer-events-none select-none"
+              style={{ color: "rgba(255,255,255,0.025)" }}
             >
-              <TiltCard>
-                <CardSpotlight
-                  className="h-full border p-5 transition-all duration-300 group"
-                  color={`${project.color}18`}
-                  style={{
-                    borderColor: "#3a3a4a",
-                    background: "#0d0d14",
-                  }}
+              {project.num}
+            </div>
+
+            <div className="flex items-center justify-between mb-4">
+              <span className="font-mono text-[9px] tracking-widest uppercase text-[#FF4D2D] border border-[#FF4D2D]/30 px-2 py-1">
+                {project.badge}
+              </span>
+              <span className="font-mono text-[10px] text-[#333] group-hover:text-[#FF4D2D] transition-colors">
+                ↗
+              </span>
+            </div>
+
+            <h3 className="font-display font-black text-lg text-white mb-3 tracking-tight group-hover:text-[#FF4D2D] transition-colors duration-300">
+              {project.name}
+            </h3>
+
+            <p className="font-mono text-[11px] text-[#555] leading-relaxed mb-4">
+              {project.desc}
+            </p>
+
+            <div className="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="font-mono text-[9px] tracking-wide text-[#444] border border-white/5 px-2 py-1"
                 >
-                  <div
-                    className="border"
-                    style={{ borderColor: project.color, boxShadow: `0 0 20px ${project.color}20` }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 30px ${project.color}50`;
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 20px ${project.color}20`;
-                    }}
-                  >
-                    <div className="p-5">
-                      <div className="flex items-start justify-between mb-3">
-                        <h3 className="font-pixel text-[10px] md:text-xs" style={{ color: project.color }}>
-                          {project.name}
-                        </h3>
-                        {project.contributed && (
-                          <span className="font-mono text-xs px-2 py-0.5 border border-accent text-accent ml-2 shrink-0">
-                            CONTRIB
-                          </span>
-                        )}
-                      </div>
-                      <p className="font-mono text-base text-text-main/80 mb-4 leading-relaxed">{project.desc}</p>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="font-mono text-xs px-2 py-0.5 border"
-                            style={{ borderColor: `${project.color}60`, color: `${project.color}cc` }}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <a
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-pixel text-[8px] transition-colors duration-200"
-                        style={{ color: project.color }}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLAnchorElement).style.textShadow = `0 0 8px ${project.color}`;
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLAnchorElement).style.textShadow = "none";
-                        }}
-                      >
-                        [ VIEW ON GITHUB ] →
-                      </a>
-                    </div>
-                  </div>
-                </CardSpotlight>
-              </TiltCard>
-            </motion.div>
-          ))}
-        </div>
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#FF4D2D] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom" />
+          </motion.a>
+        ))}
       </div>
     </section>
   );

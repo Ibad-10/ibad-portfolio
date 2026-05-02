@@ -1,142 +1,119 @@
 "use client";
-import { useRef, useEffect } from "react";
-import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { BackgroundBeams } from "@/components/aceternity/BackgroundBeams";
-import { MovingBorder } from "@/components/aceternity/MovingBorder";
-import { GlitchText } from "@/components/ui/GlitchText";
-import { TypewriterText } from "@/components/ui/TypewriterText";
+import { motion } from "framer-motion";
+import { Ticker } from "@/components/ui/Ticker";
+import { GhostText } from "@/components/ui/GhostText";
 
-const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
-  id: i,
-  left: Math.random() * 100,
-  delay: Math.random() * 8,
-  dur: 6 + Math.random() * 6,
-  size: 2 + Math.floor(Math.random() * 2) * 2,
-}));
+const FADE_UP = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+};
 
 export function Hero() {
-  const containerRef = useRef<HTMLElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [5, -5]), { stiffness: 100, damping: 30 });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-5, 5]), { stiffness: 100, damping: 30 });
-  const bgX = useTransform(mouseX, [0, 1], [-20, 20]);
-  const bgY = useTransform(mouseY, [0, 1], [-20, 20]);
-
-  useEffect(() => {
-    function onMove(e: MouseEvent) {
-      mouseX.set(e.clientX / window.innerWidth);
-      mouseY.set(e.clientY / window.innerHeight);
-    }
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [mouseX, mouseY]);
-
   function scrollTo(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   }
 
   return (
-    <section
-      id="hero"
-      ref={containerRef}
-      className="snap-section relative flex flex-col items-center justify-center overflow-hidden bg-bg"
-    >
-      <BackgroundBeams className="z-0" />
+    <section id="hero" className="relative min-h-screen flex flex-col overflow-hidden bg-[#050505]">
+      <GhostText text="IBAD IBAD" />
+      <div className="absolute inset-0 noise-overlay pointer-events-none z-[1]" aria-hidden="true" />
+      <div
+        className="absolute top-0 right-0 w-[500px] h-[500px] pointer-events-none z-[1]"
+        style={{ background: "radial-gradient(circle, rgba(255,77,45,0.05) 0%, transparent 70%)" }}
+        aria-hidden="true"
+      />
 
-      {/* Floating particles */}
-      {PARTICLES.map((p) => (
-        <div
-          key={p.id}
-          className="absolute bottom-0 pointer-events-none"
-          style={{
-            left: `${p.left}%`,
-            width: p.size,
-            height: p.size,
-            backgroundColor: p.id % 3 === 0 ? "#00ff9f" : p.id % 3 === 1 ? "#00cfff" : "#ff2d78",
-            imageRendering: "pixelated",
-            animation: `floatUp ${p.dur}s ${p.delay}s linear infinite`,
-            boxShadow: `0 0 6px currentColor`,
-          }}
-        />
-      ))}
+      <div className="relative z-10 flex items-center justify-between px-6 md:px-12 pt-24 pb-0">
+        <span className="font-mono text-[10px] text-[#333] tracking-[0.3em] uppercase">
+          Vol. 01 · Portfolio · 2026
+        </span>
+        <span className="font-mono text-[10px] text-[#333] tracking-widest uppercase hidden md:block">
+          01 / 07 · London, UK
+        </span>
+      </div>
 
-      {/* Main content with parallax */}
-      <motion.div
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" as const }}
-        className="relative z-10 flex flex-col items-center text-center px-4"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <GlitchText
-            text="IBAD"
-            as="h1"
-            className="text-primary glow-green"
-            style={{ fontSize: "clamp(3rem, 12vw, 9rem)", lineHeight: "1.1" }}
-          />
+      <div className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 py-8">
+        <motion.div {...FADE_UP}>
+          <h1 className="font-display font-black leading-[0.85] tracking-[-0.04em] mb-5">
+            <span
+              className="block text-white"
+              style={{ fontSize: "clamp(3rem, 9.5vw, 8rem)" }}
+            >
+              IBAD ULLAH
+            </span>
+            <span
+              className="block"
+              style={{
+                fontSize: "clamp(3rem, 9.5vw, 8rem)",
+                color: "transparent",
+                WebkitTextStroke: "1.5px rgba(255,77,45,0.55)",
+              }}
+            >
+              ZUBERI
+            </span>
+          </h1>
+
+          <div className="w-10 h-[1px] bg-[#FF4D2D] mb-5" />
+
+          <p className="font-mono text-xs md:text-sm text-[#555] tracking-wide max-w-lg leading-relaxed">
+            BEng Computer Systems Engineering @ Brunel · BMW Logistics Intern · AI + Robotics Builder
+          </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          className="mt-4"
-        >
-          <TypewriterText
-            words={["CS Student", "Builder", "Hacker", "Robot Maker", "3× Hackathon Winner"]}
-            className="font-mono text-2xl md:text-4xl text-secondary"
-            prefix="> "
-          />
-        </motion.div>
-
-        <motion.div
+          className="flex flex-wrap gap-4 mt-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.5 }}
-          className="flex flex-wrap gap-4 mt-10 justify-center"
+          transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
         >
-          <MovingBorder
-            containerClassName="h-12 w-44"
-            className="font-pixel text-[9px] text-primary border-primary/50 hover:bg-primary/10"
-            borderClassName="bg-primary"
+          <button
             onClick={() => scrollTo("projects")}
+            className="font-mono text-[11px] font-bold tracking-widest uppercase bg-[#FF4D2D] text-white px-7 py-3 hover:bg-[#e03d20] transition-colors duration-200"
           >
-            [ VIEW PROJECTS ]
-          </MovingBorder>
-          <a href="/Ibad_CV.pdf" download>
-            <MovingBorder
-              containerClassName="h-12 w-44"
-              className="font-pixel text-[9px] text-accent border-accent/50 hover:bg-accent/10"
-              borderClassName="bg-accent"
-            >
-              [ DOWNLOAD CV ]
-            </MovingBorder>
+            VIEW WORK
+          </button>
+          <a
+            href="/Ibad_CV.pdf"
+            download
+            className="font-mono text-[11px] font-bold tracking-widest uppercase border border-white/15 text-white/50 px-7 py-3 hover:border-white/30 hover:text-white/80 transition-all duration-200"
+          >
+            DOWNLOAD CV
           </a>
         </motion.div>
-      </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 font-pixel text-[8px] text-muted flex flex-col items-center gap-2"
-        animate={{ opacity: [1, 0.3, 1] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <span>SCROLL</span>
-        <div className="w-2 h-2 bg-primary animate-[pixelBounce_1s_steps(4)_infinite]" />
-      </motion.div>
+        <motion.p
+          className="font-mono text-[9px] text-[#333] tracking-widest uppercase mt-16 hidden md:block"
+          animate={{ opacity: [1, 0.3, 1] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          ↓ SCROLL
+        </motion.p>
+      </div>
 
-      {/* Parallax bg layer */}
-      <motion.div
-        style={{ x: bgX, y: bgY }}
-        className="absolute inset-0 pointer-events-none z-0"
-      >
-        <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-primary opacity-30" />
-        <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-accent opacity-30" />
-        <div className="absolute top-1/2 right-1/3 w-1 h-1 bg-secondary opacity-30" />
-      </motion.div>
+      <div className="relative z-10">
+        <Ticker text="ENCODE AI HACKATHON — 1ST PLACE · BRUNEL HACK — 1ST PLACE · RADIX HACK — 1ST PLACE · BMW GROUP INTERN · EY DATA ANALYST · AUTONOMOUS ROBOT 95% ACCURACY · BLOCKCHAIN DEVELOPER · AI BUILDER · LONDON · OPEN TO INTERNSHIPS SUMMER 2026 ·" />
+      </div>
+
+      <div className="relative z-10 grid grid-cols-3 border-t border-white/5">
+        {[
+          { num: "1st", label: "Out of 30 — Year Topper" },
+          { num: "4×", label: "Hackathon Podiums" },
+          { num: "95%", label: "Robot Retrieval Accuracy" },
+        ].map((stat, i) => (
+          <div
+            key={stat.num}
+            className={`px-4 md:px-12 py-5 text-center ${i < 2 ? "border-r border-white/5" : ""}`}
+          >
+            <div className="font-display font-black text-xl md:text-3xl text-white tracking-tight">
+              {stat.num}
+            </div>
+            <div className="font-mono text-[8px] md:text-[9px] text-[#333] tracking-widest uppercase mt-1">
+              {stat.label}
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

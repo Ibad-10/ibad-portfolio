@@ -1,132 +1,133 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 
-function CountUp({ to, inView }: { to: number; inView: boolean }) {
+function CountUp({ to, suffix = "", inView }: { to: number; suffix?: string; inView: boolean }) {
   const [val, setVal] = useState(0);
   useEffect(() => {
     if (!inView) return;
-    let start = 0;
-    const step = Math.ceil(to / 40);
+    let current = 0;
+    const step = Math.ceil(to / 50);
     const interval = setInterval(() => {
-      start = Math.min(start + step, to);
-      setVal(start);
-      if (start >= to) clearInterval(interval);
-    }, 30);
+      current = Math.min(current + step, to);
+      setVal(current);
+      if (current >= to) clearInterval(interval);
+    }, 25);
     return () => clearInterval(interval);
   }, [inView, to]);
-  return <>{val}</>;
+  return <>{val}{suffix}</>;
 }
 
 const STATS = [
-  { label: "Projects Built",            value: 5,  suffix: "+" },
-  { label: "Languages",                 value: 7,  suffix: "" },
-  { label: "Hackathons Won",            value: 3,  suffix: "🏆" },
-  { label: "Open Source Contributions", value: 2,  suffix: "" },
+  { display: "1st", label: "Year Topper — 1st out of 30", isStatic: true },
+  { to: 8, suffix: "+", label: "Projects Shipped", isStatic: false },
+  { isStatic: true, display: "4×", label: "Hackathon Podiums" },
+  { display: "95%", label: "Robot Retrieval Accuracy", isStatic: true },
 ];
 
-const BIO_LINES = [
-  "$ whoami",
-  "> Ibad — CS Student @ Brunel University",
-  "$ cat skills.txt",
-  "> Full-Stack · Blockchain · AI · Robotics",
-  "$ ls ./achievements",
-  "> 3x Hackathon Winner",
-  "> Object Retriever Robot",
-  "> Starknet DeFi Game",
-  "$ echo 'currently_building'",
-  "> ClipForge AI",
+const EXPERIENCE = [
+  { company: "BMW Group", role: "Logistics Planning Intern (Controls & Automation)", period: "Jul 2025 – Present" },
+  { company: "EY (Ernst & Young)", role: "Data Analyst", period: "Jul 2024 – Sep 2024" },
+  { company: "Cloud Nebula Enterprises", role: "Web Developer", period: "Jun 2024 – Sep 2024" },
 ];
 
 export function About() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [typedLines, setTypedLines] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (!inView) return;
-    let i = 0;
-    const interval = setInterval(() => {
-      setTypedLines((prev) => [...prev, BIO_LINES[i]]);
-      i++;
-      if (i >= BIO_LINES.length) clearInterval(interval);
-    }, 300);
-    return () => clearInterval(interval);
-  }, [inView]);
-
-  const containerVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.15 } },
-  };
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="about" ref={ref} className="snap-section relative flex items-center bg-bg px-6 py-20">
-      {/* Corner brackets */}
-      <div className="absolute top-8 left-8 w-8 h-8 border-t-2 border-l-2 border-primary opacity-60" />
-      <div className="absolute top-8 right-8 w-8 h-8 border-t-2 border-r-2 border-primary opacity-60" />
-      <div className="absolute bottom-8 left-8 w-8 h-8 border-b-2 border-l-2 border-primary opacity-60" />
-      <div className="absolute bottom-8 right-8 w-8 h-8 border-b-2 border-r-2 border-primary opacity-60" />
+    <section id="about" ref={ref} className="bg-[#080808] px-6 md:px-12 py-24">
+      <motion.p
+        className="section-label mb-8"
+        initial={{ opacity: 0, x: -20 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.5 }}
+      >
+        [ 02 ] — About
+      </motion.p>
 
-      <div className="max-w-5xl mx-auto w-full">
-        <motion.h2
-          className="font-pixel text-primary text-lg md:text-2xl mb-12 glow-green"
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5 }}
+      <div className="grid md:grid-cols-2 gap-12 md:gap-16 max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.1 }}
         >
-          &gt; ABOUT_ME
-          <span className="animate-blink">_</span>
-        </motion.h2>
+          <h2 className="font-display font-black text-3xl md:text-5xl text-white leading-[0.9] tracking-[-0.03em] mb-6">
+            Builder by nature,
+            <br />
+            <span className="text-outline-red">hacker by choice.</span>
+          </h2>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Stats */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            className="grid grid-cols-2 gap-6"
-          >
-            {STATS.map(({ label, value, suffix }) => (
-              <motion.div
-                key={label}
-                variants={itemVariants}
-                className="border border-muted p-4 hover:border-primary transition-colors duration-300"
-                style={{ imageRendering: "pixelated" }}
-              >
-                <div className="font-pixel text-3xl text-primary glow-green">
-                  <CountUp to={value} inView={inView} />{suffix}
+          <p className="font-mono text-sm text-[#555] leading-relaxed mb-8">
+            BEng Computer Systems Engineering at Brunel University London — Predicted First Class, ranked 1st out of 30. Currently a Logistics Planning Intern (Controls & Automation) at BMW Group, writing PLC logic and supporting Industry 4.0 projects in a live engine manufacturing plant. Previously at EY, where I analysed 20,000+ data entries and cut interpretation time by 25%. I build things that work: blockchain games that win hackathons, AI agents, autonomous robots with 95% retrieval accuracy, and decentralised payment platforms. Open to high-impact engineering internships, Summer 2026.
+          </p>
+
+          <div className="space-y-3 border-t border-white/5 pt-6">
+            {EXPERIENCE.map((exp) => (
+              <div key={exp.company} className="flex items-start gap-4">
+                <div className="w-1 h-1 bg-[#FF4D2D] mt-2 shrink-0" />
+                <div>
+                  <p className="font-mono text-[11px] text-white tracking-wide">{exp.company}</p>
+                  <p className="font-mono text-[10px] text-[#444]">{exp.role} · {exp.period}</p>
                 </div>
-                <div className="font-mono text-lg text-muted mt-1">{label}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.25 }}
+          className="flex flex-col gap-6"
+        >
+          <div className="grid grid-cols-2 gap-3">
+            <div className="relative aspect-[3/4] overflow-hidden">
+              <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-[#FF4D2D] z-10" />
+              <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-[#FF4D2D] z-10" />
+              <Image
+                src="/photos/hero.jpeg"
+                alt="Ibad Ullah Zuberi"
+                fill
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+              />
+            </div>
+            <div className="relative aspect-[3/4] overflow-hidden">
+              <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-[#FF4D2D] z-10" />
+              <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-[#FF4D2D] z-10" />
+              <Image
+                src="/photos/hackathon.jpeg"
+                alt="Ibad presenting at hackathon"
+                fill
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {STATS.map((stat, i) => (
+              <motion.div
+                key={i}
+                className="border border-white/5 p-4 hover:border-[#FF4D2D]/30 transition-colors duration-300"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.4 + i * 0.08 }}
+              >
+                <div className="font-display font-black text-2xl md:text-3xl text-white tracking-tight">
+                  {stat.isStatic ? (
+                    stat.display
+                  ) : (
+                    <CountUp to={stat.to!} suffix={stat.suffix} inView={inView} />
+                  )}
+                </div>
+                <div className="font-mono text-[9px] text-[#444] tracking-widest uppercase mt-1">
+                  {stat.label}
+                </div>
               </motion.div>
             ))}
-          </motion.div>
-
-          {/* Terminal bio */}
-          <div className="border border-muted p-4 font-mono text-lg bg-black/30 min-h-[240px]">
-            <div className="flex gap-2 mb-3">
-              <div className="w-2 h-2 rounded-none bg-accent" />
-              <div className="w-2 h-2 rounded-none" style={{ backgroundColor: "#ffd700" }} />
-              <div className="w-2 h-2 rounded-none bg-primary" />
-            </div>
-            {typedLines.map((line, i) => (
-              <motion.p
-                key={i}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className={line.startsWith("$") ? "text-primary" : "text-text-main"}
-              >
-                {line}
-              </motion.p>
-            ))}
-            {typedLines.length < BIO_LINES.length && (
-              <span className="text-primary animate-blink">_</span>
-            )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
