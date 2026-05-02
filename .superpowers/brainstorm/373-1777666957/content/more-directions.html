@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>More Design Directions</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=IBM+Plex+Mono:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Syne:wght@400;700;800&family=Anton&family=Space+Grotesk:wght@400;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 40px 24px;
+  }
+
+  h1 { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #666; margin-bottom: 6px; }
+  .subtitle { font-size: 10px; color: #444; margin-bottom: 36px; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    border: 1px solid #222;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover { border-color: #555; transform: translateY(-2px); }
+  .card.selected { border-color: #fff; }
+  .card.selected::after {
+    content: '✓ SELECTED';
+    position: absolute; top: 10px; right: 10px;
+    font-size: 9px; letter-spacing: 0.15em;
+    background: #fff; color: #000; padding: 3px 7px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .card-image { height: 320px; overflow: hidden; position: relative; }
+  .card-body { padding: 18px; background: #111; border-top: 1px solid #222; }
+  .card-body h3 { font-size: 12px; letter-spacing: 0.1em; margin-bottom: 5px; }
+  .card-body p { font-size: 10px; color: #666; line-height: 1.6; }
+
+  /* ── OPTION D: DARK BRUTALIST ── */
+  .preview-d {
+    background: #0C0C0C;
+    height: 100%;
+    padding: 0;
+    font-family: 'Unbounded', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+  .preview-d .stripe {
+    background: #FF4D2D;
+    height: 4px;
+    width: 100%;
+  }
+  .preview-d .inner { padding: 20px; }
+  .preview-d .nav-d {
+    display: flex; justify-content: space-between;
+    font-size: 7px; color: #444; letter-spacing: 0.15em;
+    text-transform: uppercase; margin-bottom: 30px;
+  }
+  .preview-d .logo-d { color: #FF4D2D; font-weight: 900; font-size: 9px; }
+  .preview-d .big-num {
+    font-size: 90px; font-weight: 900;
+    color: #FF4D2D; opacity: 0.15;
+    line-height: 0.8; position: absolute;
+    top: 40px; right: 16px;
+    letter-spacing: -0.05em;
+  }
+  .preview-d .name-d {
+    font-size: 36px; font-weight: 900;
+    color: #fff; line-height: 0.88;
+    letter-spacing: -0.03em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .preview-d .divider { width: 40px; height: 2px; background: #FF4D2D; margin-bottom: 12px; }
+  .preview-d .role-d {
+    font-size: 7px; color: #555;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    line-height: 1.8; margin-bottom: 20px;
+  }
+  .preview-d .tags-d { display: flex; flex-wrap: wrap; gap: 5px; }
+  .preview-d .tag-d {
+    border: 1px solid #222; color: #444;
+    font-size: 7px; padding: 3px 8px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .preview-d .tag-d.hot { border-color: #FF4D2D; color: #FF4D2D; }
+  .preview-d .bottom-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: #FF4D2D; padding: 5px 20px;
+    font-size: 7px; font-weight: 700;
+    letter-spacing: 0.2em; color: #fff;
+    white-space: nowrap; overflow: hidden; text-transform: uppercase;
+  }
+
+  /* ── OPTION E: PHOTO-FORWARD CINEMATIC ── */
+  .preview-e {
+    background: #000;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Syne', sans-serif;
+  }
+  .preview-e .photo-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #1a1208 0%, #0d0d0d 40%, #0a0a14 100%);
+  }
+  .preview-e .photo-sim {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 55%;
+    background: linear-gradient(180deg, #1c1410 0%, #2a1f14 50%, #111 100%);
+    opacity: 0.8;
+  }
+  .preview-e .photo-sim::before {
+    content: 'IBAD';
+    position: absolute; bottom: 20px; left: 20px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 60px; font-weight: 900;
+    color: rgba(255,255,255,0.05);
+    letter-spacing: -0.05em;
+  }
+  .preview-e .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, #000 30%, transparent 70%);
+  }
+  .preview-e .content-e {
+    position: relative; z-index: 2;
+    padding: 24px;
+    height: 100%;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .preview-e .label-e {
+    font-size: 8px; letter-spacing: 0.3em;
+    color: #FF4D2D; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .preview-e .name-e {
+    font-size: 42px; font-weight: 800;
+    line-height: 0.9; color: #fff;
+    letter-spacing: -0.03em; margin-bottom: 12px;
+  }
+  .preview-e .line-e {
+    width: 30px; height: 1px; background: #FF4D2D; margin-bottom: 10px;
+  }
+  .preview-e .bio-e {
+    font-size: 8px; color: #888; line-height: 1.7;
+    font-family: 'IBM Plex Mono', monospace;
+    max-width: 180px; margin-bottom: 16px;
+  }
+  .preview-e .btns-e { display: flex; gap: 8px; }
+  .preview-e .btn-e {
+    font-size: 7px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 14px;
+  }
+  .preview-e .btn-e.fill { background: #FF4D2D; color: #fff; }
+  .preview-e .btn-e.out { border: 1px solid #333; color: #666; }
+  .preview-e .corner-e {
+    position: absolute; top: 20px; right: 20px; z-index: 2;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+  }
+  .preview-e .dot-e {
+    width: 6px; height: 6px; border-radius: 50%; background: #FF4D2D;
+  }
+  .preview-e .avail-e {
+    font-size: 7px; color: #FF4D2D; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+
+  /* ── OPTION F: A+B HYBRID (DARK LUXURY BRUTALIST) ── */
+  .preview-f {
+    background: #0E0B08;
+    height: 100%;
+    padding: 22px;
+    font-family: 'Unbounded', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+  .preview-f::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,77,45,0.06) 0%, transparent 70%);
+  }
+  .preview-f .nav-f {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 40px;
+  }
+  .preview-f .logo-f {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; font-weight: 300; font-style: italic;
+    letter-spacing: 0.25em; color: #C87941;
+  }
+  .preview-f .nav-links-f {
+    font-size: 7px; color: #333; letter-spacing: 0.15em;
+    display: flex; gap: 14px; text-transform: uppercase;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .preview-f .issue {
+    font-size: 7px; letter-spacing: 0.25em; color: #FF4D2D;
+    text-transform: uppercase; margin-bottom: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .preview-f .name-f {
+    font-size: 46px; font-weight: 900;
+    color: #F5EDD6; line-height: 0.88;
+    letter-spacing: -0.04em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .preview-f .name-f span { color: #FF4D2D; }
+  .preview-f .rule-f {
+    height: 1px; background: linear-gradient(to right, #FF4D2D, transparent);
+    margin-bottom: 14px;
+  }
+  .preview-f .meta-f {
+    font-size: 7px; color: #444; letter-spacing: 0.15em;
+    text-transform: uppercase; line-height: 2;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .preview-f .meta-f strong { color: #C87941; }
+  .preview-f .cta-f {
+    display: inline-block; margin-top: 16px;
+    background: #FF4D2D; color: #F5EDD6;
+    font-size: 7px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 8px 16px;
+  }
+  .preview-f .corner-bracket {
+    position: absolute; bottom: 16px; right: 16px;
+    width: 20px; height: 20px;
+    border-right: 1px solid #FF4D2D; border-bottom: 1px solid #FF4D2D;
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+<h1>More Design Directions</h1>
+<p class="subtitle">Also showing A+B hybrid. Pick any — or tell me to mix elements.</p>
+
+<div class="cards">
+
+  <!-- D: DARK BRUTALIST -->
+  <div class="card" data-choice="d" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="preview-d">
+        <div class="stripe"></div>
+        <div class="inner">
+          <div class="nav-d">
+            <span class="logo-d">IBAD.DEV</span>
+            <span>WORK · ABOUT · CONTACT</span>
+          </div>
+          <div class="big-num">01</div>
+          <div class="name-d">IBAD<br>UZUBERI</div>
+          <div class="divider"></div>
+          <div class="role-d">
+            CS Student @ Brunel University<br>
+            3× Hackathon Winner · London
+          </div>
+          <div class="tags-d">
+            <span class="tag-d hot">Full-Stack</span>
+            <span class="tag-d hot">AI</span>
+            <span class="tag-d">Blockchain</span>
+            <span class="tag-d">Robotics</span>
+          </div>
+        </div>
+        <div class="bottom-bar">
+          ENCODE WINNER · BRUNEL WINNER · ROYAL HOLLOWAY WINNER · AVAILABLE FOR WORK &nbsp;&nbsp;
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 style="color:#FF4D2D;">D — DARK BRUTALIST</h3>
+      <p>Same brutalist energy as B but pure black background + red accents. More dramatic, less editorial. Feels like a hacker who also has taste. Darker = higher contrast = harder to ignore.</p>
+    </div>
+  </div>
+
+  <!-- E: PHOTO-FORWARD CINEMATIC -->
+  <div class="card" data-choice="e" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="preview-e">
+        <div class="photo-bg"></div>
+        <div class="photo-sim"></div>
+        <div class="overlay"></div>
+        <div class="corner-e">
+          <div class="dot-e"></div>
+          <div class="avail-e">Available</div>
+        </div>
+        <div class="content-e">
+          <div class="label-e">Portfolio · 2026</div>
+          <div class="name-e">IBAD<br>UZUBERI</div>
+          <div class="line-e"></div>
+          <div class="bio-e">CS student. Builder. 3× hackathon winner. Ships full-stack, blockchain, AI, robotics.</div>
+          <div class="btns-e">
+            <div class="btn-e fill">View Work</div>
+            <div class="btn-e out">Download CV</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 style="color:#FF4D2D;">E — CINEMATIC DARK</h3>
+      <p>Full-bleed tuxedo photo dominates the hero. Dark overlay, type layered over image. Very film poster / luxury brand. Your photo becomes the centrepiece. Photography section would look incredible.</p>
+    </div>
+  </div>
+
+  <!-- F: A+B HYBRID -->
+  <div class="card" data-choice="f" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="preview-f">
+        <div class="nav-f">
+          <span class="logo-f">I · Zuberi</span>
+          <div class="nav-links-f"><span>Work</span><span>About</span><span>Contact</span></div>
+        </div>
+        <div class="issue">Issue № 01 · 2026</div>
+        <div class="name-f">IBAD<br><span>UZUBERI</span></div>
+        <div class="rule-f"></div>
+        <div class="meta-f">
+          <strong>Location:</strong> London, UK<br>
+          <strong>Role:</strong> CS Student · Builder<br>
+          <strong>Wins:</strong> 3× Hackathon Champion
+        </div>
+        <div class="cta-f">View Work →</div>
+        <div class="corner-bracket"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 style="color:#C87941;">F — DARK LUXURY EDITORIAL</h3>
+      <p>A + B merged: dark warm background + heavy Unbounded type + gold/copper serif details + red surgical accents. Sophisticated and brutalist at once. Most complex, highest ceiling.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleSelect(el) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const choice = el.dataset.choice;
+  if (window.__companion) window.__companion.select(choice, el.querySelector('h3').textContent);
+}
+</script>
+</body>
+</html>

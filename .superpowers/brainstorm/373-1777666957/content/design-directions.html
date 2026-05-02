@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Design Directions</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&family=Unbounded:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=IBM+Plex+Mono:wght@400;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    padding: 40px 24px;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 11px;
+    color: #444;
+    margin-bottom: 40px;
+    letter-spacing: 0.05em;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    border: 1px solid #222;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover { border-color: #555; transform: translateY(-2px); }
+  .card.selected { border-color: #fff !important; }
+  .card.selected::after {
+    content: '✓ SELECTED';
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    background: #fff;
+    color: #000;
+    padding: 4px 8px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .card-image {
+    height: 340px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .card-body {
+    padding: 20px;
+    background: #111;
+    border-top: 1px solid #222;
+  }
+
+  .card-body h3 {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .card-body p {
+    font-size: 10px;
+    color: #666;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+  }
+
+  /* ────────── OPTION A: LUXURY DARK ────────── */
+  .preview-a {
+    background: #080808;
+    height: 100%;
+    padding: 28px;
+    font-family: 'Cormorant Garamond', serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .preview-a::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(200,121,65,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .preview-a .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 48px;
+    border-bottom: 1px solid rgba(200,121,65,0.2);
+    padding-bottom: 16px;
+  }
+
+  .preview-a .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    color: #C87941;
+    text-transform: uppercase;
+  }
+
+  .preview-a .nav-links {
+    display: flex;
+    gap: 20px;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    color: #555;
+    text-transform: uppercase;
+  }
+
+  .preview-a .hero-label {
+    font-size: 8px;
+    letter-spacing: 0.4em;
+    color: #C87941;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .preview-a .hero-name {
+    font-size: 58px;
+    font-weight: 300;
+    line-height: 0.9;
+    color: #F5EDD6;
+    font-style: italic;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .preview-a .hero-name em {
+    font-style: normal;
+    color: #C87941;
+    display: block;
+    font-size: 0.5em;
+    letter-spacing: 0.4em;
+    margin-top: 6px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .preview-a .hero-sub {
+    font-size: 9px;
+    color: #555;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-left: 1px solid #C87941;
+    padding-left: 10px;
+  }
+
+  .preview-a .tag {
+    display: inline-block;
+    font-size: 7px;
+    letter-spacing: 0.15em;
+    border: 1px solid rgba(200,121,65,0.3);
+    padding: 4px 10px;
+    color: #C87941;
+    margin-top: 20px;
+    text-transform: uppercase;
+  }
+
+  /* ────────── OPTION B: BRUTALIST EDITORIAL ────────── */
+  .preview-b {
+    background: #F0EBE1;
+    height: 100%;
+    padding: 0;
+    font-family: 'Unbounded', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .preview-b .top-bar {
+    background: #000;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .preview-b .logo-b {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 9px;
+    font-weight: 900;
+    color: #FF4D2D;
+    letter-spacing: 0.05em;
+  }
+
+  .preview-b .nav-b {
+    font-size: 7px;
+    color: #555;
+    letter-spacing: 0.1em;
+    display: flex;
+    gap: 16px;
+  }
+
+  .preview-b .hero-b {
+    padding: 20px;
+    position: relative;
+  }
+
+  .preview-b .number {
+    font-size: 100px;
+    font-weight: 900;
+    color: #F0EBE1;
+    -webkit-text-stroke: 2px #000;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    margin-bottom: -10px;
+  }
+
+  .preview-b .name-b {
+    font-size: 32px;
+    font-weight: 900;
+    color: #000;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  .preview-b .accent-line {
+    height: 3px;
+    background: #FF4D2D;
+    margin: 12px 0;
+    width: 60px;
+  }
+
+  .preview-b .role-b {
+    font-size: 8px;
+    color: #000;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .preview-b .pill {
+    background: #000;
+    color: #F0EBE1;
+    font-size: 7px;
+    padding: 5px 12px;
+    display: inline-block;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+
+  .preview-b .pill.red { background: #FF4D2D; }
+
+  .preview-b .ticker {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    background: #FF4D2D;
+    padding: 6px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  /* ────────── OPTION C: KINETIC VOID ────────── */
+  .preview-c {
+    background: #030303;
+    height: 100%;
+    padding: 24px;
+    font-family: 'Syne', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .preview-c::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(180,255,0,0.12) 0%, transparent 70%);
+    top: -80px;
+    right: -80px;
+    pointer-events: none;
+  }
+
+  .preview-c .nav-c {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: #333;
+    text-transform: uppercase;
+  }
+
+  .preview-c .logo-c {
+    color: #B4FF00;
+    font-weight: 800;
+  }
+
+  .preview-c .status {
+    font-size: 7px;
+    color: #B4FF00;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .preview-c .status::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #B4FF00;
+    display: block;
+  }
+
+  .preview-c .index {
+    font-size: 8px;
+    color: #333;
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+
+  .preview-c .name-c {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin-bottom: 16px;
+  }
+
+  .preview-c .name-c .line1 { color: #fff; }
+  .preview-c .name-c .line2 { color: #B4FF00; }
+
+  .preview-c .desc-c {
+    font-size: 9px;
+    color: #555;
+    letter-spacing: 0.05em;
+    line-height: 1.7;
+    max-width: 200px;
+    margin-bottom: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .preview-c .btn-c {
+    display: inline-block;
+    background: #B4FF00;
+    color: #000;
+    font-family: 'Syne', sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    position: relative;
+  }
+
+  .preview-c .grid-lines {
+    position: absolute;
+    bottom: 20px;
+    left: 24px;
+    right: 24px;
+    display: flex;
+    gap: 1px;
+  }
+
+  .preview-c .grid-lines span {
+    flex: 1;
+    height: 40px;
+    background: #111;
+  }
+
+  .preview-c .grid-lines span:nth-child(3) { background: rgba(180,255,0,0.2); }
+  .preview-c .grid-lines span:nth-child(7) { background: rgba(180,255,0,0.1); }
+</style>
+</head>
+<body>
+<h1>Portfolio Design Direction</h1>
+<p class="subtitle">Pick the aesthetic that feels most like you. Click to select.</p>
+
+<div class="cards">
+
+  <!-- OPTION A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="preview-a">
+        <div class="nav">
+          <span class="logo">I · B · A · D</span>
+          <div class="nav-links">
+            <span>Work</span><span>About</span><span>Contact</span>
+          </div>
+        </div>
+        <div class="hero-label">Portfolio · 2026</div>
+        <div class="hero-name">
+          Ibad<br>
+          Uzuberi
+          <em>CS · Builder · Hacker</em>
+        </div>
+        <div class="hero-sub">Brunel University · London</div>
+        <div class="tag">3× Hackathon Winner</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 style="color:#C87941;">A — LUXURY DARK</h3>
+      <p>Deep charcoal + copper/gold tones. Refined italic serif + mono pairing. Sophisticated, timeless. Stands out from typical dev portfolios. Feels like a design studio, not a bootcamp grad.</p>
+    </div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="preview-b">
+        <div class="top-bar">
+          <span class="logo-b">IBAD.DEV</span>
+          <div class="nav-b"><span>WORK</span><span>ABOUT</span><span>CONTACT</span></div>
+        </div>
+        <div class="hero-b">
+          <div class="number">01</div>
+          <div class="name-b">Ibad<br>Uzuberi</div>
+          <div class="accent-line"></div>
+          <div class="role-b">CS Student · Builder · 3× Hackathon Winner</div>
+          <div>
+            <span class="pill">Full-Stack</span>
+            <span class="pill">Blockchain</span>
+            <span class="pill red">AI</span>
+            <span class="pill">Robotics</span>
+          </div>
+        </div>
+        <div class="ticker">
+          &nbsp;&nbsp;ENCODE HACKATHON WINNER · BRUNEL WINNER · ROYAL HOLLOWAY WINNER · AVAILABLE FOR WORK &nbsp;&nbsp;
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 style="color:#FF4D2D;">B — BRUTALIST EDITORIAL</h3>
+      <p>Cream paper + jet black + electric red. Massive heavy type, numbered sections, ticker tape. High-energy, impossible to ignore. Like a magazine crossed with a concert poster. Very awwwards.</p>
+    </div>
+  </div>
+
+  <!-- OPTION C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="preview-c">
+        <div class="nav-c">
+          <span class="logo-c">IBAD</span>
+          <span class="status">Available for work</span>
+          <span>01 / 05</span>
+        </div>
+        <div class="index">[ 001 ] — IDENTITY</div>
+        <div class="name-c">
+          <div class="line1">Building</div>
+          <div class="line2">Tomorrow</div>
+        </div>
+        <div class="desc-c">CS student at Brunel. 3× hackathon winner. Ships full-stack, blockchain, AI, robotics.</div>
+        <div class="btn-c">View Work →</div>
+        <div class="grid-lines">
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 style="color:#B4FF00;">C — KINETIC VOID</h3>
+      <p>Pure black + electric lime green accent. Syne font, geometric grid overlays, numbered sections, "available for work" status dot. Feels like a top-tier tech founder portfolio. Fast, confident, modern.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleSelect(el) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  // Log choice for server
+  const choice = el.dataset.choice;
+  if (window.__companion) window.__companion.select(choice, el.querySelector('h3').textContent);
+}
+</script>
+</body>
+</html>

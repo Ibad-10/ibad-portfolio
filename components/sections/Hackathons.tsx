@@ -1,105 +1,129 @@
 "use client";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Spotlight } from "@/components/aceternity/Spotlight";
-import { TiltCard } from "@/components/ui/TiltCard";
-import { Confetti } from "@/components/ui/Confetti";
 
-const WINS = [
+const HACKATHONS = [
   {
-    event: "Encode Hackathon",
-    prize: "1ST PLACE",
+    num: "01",
+    event: "Encode AI London Hackathon 2025",
+    prize: "1st Place — Main Track",
+    extra: ["2nd — Nethermind Bounty", "5th — StarkWare Bounty"],
+    desc: "Built HackTheWallet — a Starknet blockchain game where players use conversational AI to reclaim locked crypto. Prompt engineering meets DeFi. First place across all teams, plus two sponsor bounties.",
+    date: "Apr 2025",
     org: "Encode Club",
-    desc: "Built HackTheWallet — a Starknet blockchain game where players convince an AI to return crypto.",
-    color: "#ffd700",
-    icon: "🏆",
+    gold: true,
   },
   {
-    event: "Brunel Hack",
-    prize: "1ST PLACE",
-    org: "Brunel University",
-    desc: "Won the university hackathon with an AI + blockchain solution built in under 24 hours.",
-    color: "#ffd700",
-    icon: "🏆",
+    num: "02",
+    event: "Brunel University Hack",
+    prize: "1st Place",
+    extra: [],
+    desc: "Shipped luffa-ai-bot — a LangGraph multi-tool AI assistant integrated into the Luffa live messaging platform. Handles voting, image generation, hotel booking — all from chat. Built and deployed in under 24 hours.",
+    date: "2024",
+    org: "Brunel University London",
+    gold: true,
   },
   {
-    event: "Royal Holloway Hackathon",
-    prize: "1ST PLACE",
+    num: "03",
+    event: "Radix Hack",
+    prize: "1st Place",
+    extra: [],
+    desc: "Built StreamFlow, a decentralised creator tipping platform on Radix blockchain. Real-time tip analytics, on-chain transaction processing, TypeScript + Rust architecture.",
+    date: "2024",
+    org: "Radix Foundation",
+    gold: true,
+  },
+  {
+    num: "04",
+    event: "Royal Hackaway v8",
+    prize: "3rd Place — Verdn Environmental Track",
+    extra: [],
+    desc: "Built Foodo-Baggins at Royal Holloway's inter-university hackathon. AI nutrition tracker with sustainability integration — analyses food photos, provides coaching, converts meals into eco-friendly Green Points.",
+    date: "2024",
     org: "Royal Holloway University",
-    desc: "Top prize at Royal Holloway's hackathon, competing against teams from multiple universities.",
-    color: "#ffd700",
-    icon: "🏆",
+    gold: false,
+  },
+  {
+    num: "05",
+    event: "EasyA x Polkadot Hackathon London",
+    prize: "Finalist",
+    extra: [],
+    desc: "Built Go Fish — decentralised payment platform for the global fishing industry on Polkadot. Smart contracts enable 97.5% instant payment to exporters, with automated collateral and stablecoin FX protection.",
+    date: "Apr 2025",
+    org: "EasyA",
+    gold: false,
   },
 ];
 
 export function Hackathons() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="hackathons" ref={ref} className="snap-section relative flex items-center bg-bg px-6 py-20 overflow-hidden">
-      <Spotlight className="-top-40 left-0 md:left-60" fill="#ffd700" />
-      <Confetti />
+    <section id="hackathons" ref={ref} className="bg-[#050505] px-6 md:px-12 py-24">
+      <motion.p
+        className="section-label mb-4"
+        initial={{ opacity: 0, x: -20 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+      >
+        [ 05 ] — Hackathons
+      </motion.p>
 
-      <div className="max-w-5xl mx-auto w-full relative z-10">
-        <motion.h2
-          className="font-pixel text-lg md:text-2xl mb-4 glow-gold"
-          style={{ color: "#ffd700" }}
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          &gt; ACHIEVEMENTS<span className="animate-blink" style={{ color: "#ffd700" }}>_</span>
-        </motion.h2>
-        <motion.p
-          className="font-mono text-xl text-muted mb-12"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.3 }}
-        >
-          3× Hackathon Winner
-        </motion.p>
+      <motion.p
+        className="font-display font-black text-2xl md:text-4xl text-white tracking-tight mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ delay: 0.1 }}
+      >
+        Multiple hackathons.{" "}
+        <span className="text-outline-red">Multiple wins.</span>
+      </motion.p>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {WINS.map((win, i) => (
-            <motion.div
-              key={win.event}
-              initial={{ opacity: 0, y: 40, scale: 0.95 }}
-              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ delay: i * 0.15 + 0.2, duration: 0.5, type: "spring", stiffness: 150 }}
-            >
-              <TiltCard maxTilt={8}>
-                <div
-                  className="border p-6 h-full flex flex-col gap-4 transition-all duration-300 cursor-pointer group"
-                  style={{
-                    borderColor: "#ffd70060",
-                    background: "linear-gradient(135deg, #0d0d14, #1a1500)",
-                    boxShadow: "0 0 20px #ffd70010",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.boxShadow = "0 0 40px #ffd70030, inset 0 0 20px #ffd70008";
-                    (e.currentTarget as HTMLDivElement).style.borderColor = "#ffd700";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.boxShadow = "0 0 20px #ffd70010";
-                    (e.currentTarget as HTMLDivElement).style.borderColor = "#ffd70060";
-                  }}
-                >
-                  <div className="text-4xl">{win.icon}</div>
-                  <div
-                    className="font-pixel text-[8px] px-3 py-1 border self-start"
-                    style={{ borderColor: "#ffd700", color: "#ffd700", boxShadow: "0 0 8px #ffd70060" }}
-                  >
-                    {win.prize}
+      <div className="space-y-3 max-w-4xl">
+        {HACKATHONS.map((hack, i) => (
+          <motion.div
+            key={hack.num}
+            className="border border-white/5 hover:border-[#FF4D2D]/30 transition-all duration-300 group"
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: i * 0.1 }}
+          >
+            <div className="p-6">
+              <div className="flex flex-wrap items-start justify-between gap-4 mb-3">
+                <div>
+                  <div className="flex items-center gap-3 mb-1">
+                    <span
+                      className="font-mono text-[10px] tracking-widest uppercase px-2 py-1 border"
+                      style={{
+                        borderColor: hack.gold ? "#FF4D2D" : "rgba(255,255,255,0.1)",
+                        color: hack.gold ? "#FF4D2D" : "#555",
+                      }}
+                    >
+                      {hack.prize}
+                    </span>
+                    {hack.extra.map((e) => (
+                      <span
+                        key={e}
+                        className="font-mono text-[9px] tracking-widest uppercase text-[#444] border border-white/5 px-2 py-1 hidden md:inline"
+                      >
+                        {e}
+                      </span>
+                    ))}
                   </div>
-                  <h3 className="font-pixel text-[9px] text-text-main leading-relaxed">{win.event}</h3>
-                  <p className="font-mono text-base text-muted">{win.org}</p>
-                  <p className="font-mono text-base text-text-main/80 leading-relaxed flex-1">{win.desc}</p>
+                  <h3 className="font-display font-black text-base md:text-xl text-white tracking-tight group-hover:text-[#FF4D2D] transition-colors duration-300">
+                    {hack.event}
+                  </h3>
                 </div>
-              </TiltCard>
-            </motion.div>
-          ))}
-        </div>
+                <span className="font-mono text-[10px] text-[#333] tracking-widest shrink-0">
+                  {hack.date}
+                </span>
+              </div>
+              <p className="font-mono text-[11px] text-[#555] leading-relaxed">
+                {hack.desc}
+              </p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

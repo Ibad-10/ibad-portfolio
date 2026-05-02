@@ -1,76 +1,118 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const SECTIONS = [
-  { id: "hero",       label: "HOME" },
-  { id: "about",      label: "ABOUT" },
-  { id: "skills",     label: "SKILLS" },
-  { id: "projects",   label: "PROJECTS" },
-  { id: "hackathons", label: "WINS" },
-  { id: "robot",      label: "ROBOT" },
-  { id: "contact",    label: "CONTACT" },
+const NAV_LINKS = [
+  { label: "Work", href: "#projects" },
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Hackathons", href: "#hackathons" },
+  { label: "Photography", href: "#photography" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export function NavBar() {
-  const [visible, setVisible] = useState(false);
-  const [active, setActive] = useState("hero");
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.5);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const observers = SECTIONS.map(({ id }) => {
+    const sections = ["hero", "about", "skills", "projects", "hackathons", "photography", "contact"];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { threshold: 0.4 }
+    );
+    sections.forEach((id) => {
       const el = document.getElementById(id);
-      if (!el) return null;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id); },
-        { threshold: 0.5 }
-      );
-      obs.observe(el);
-      return obs;
+      if (el) observer.observe(el);
     });
-    return () => observers.forEach((o) => o?.disconnect());
+    return () => observer.disconnect();
   }, []);
 
-  function scrollTo(id: string) {
+  function scrollTo(href: string) {
+    const id = href.replace("#", "");
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false);
   }
 
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.nav
-          initial={{ y: -60, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -60, opacity: 0 }}
-          className="fixed top-0 left-0 right-0 z-[9994] flex justify-center py-3"
-          style={{ backdropFilter: "blur(12px)", background: "rgba(10,10,15,0.85)", borderBottom: "1px solid #3a3a4a" }}
+    <header
+      className="fixed top-0 left-0 right-0 z-[1000] transition-all duration-300"
+      style={{
+        background: scrolled ? "rgba(5,5,5,0.9)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.05)" : "none",
+      }}
+    >
+      <nav className="flex items-center justify-between px-6 md:px-12 py-4">
+        <button
+          onClick={() => scrollTo("#hero")}
+          className="font-display font-black text-sm text-white tracking-tight hover:text-[#FF4D2D] transition-colors duration-200"
         >
-          <div className="flex gap-6 items-center">
-            {SECTIONS.map(({ id, label }) => (
+          I.UZUBERI
+        </button>
+
+        <div className="hidden md:flex items-center gap-8">
+          {NAV_LINKS.map(({ label, href }) => {
+            const isActive = activeSection === href.replace("#", "");
+            return (
               <button
-                key={id}
-                onClick={() => scrollTo(id)}
-                className="relative font-pixel text-[8px] transition-colors duration-200"
-                style={{ color: active === id ? "#00ff9f" : "#3a3a4a" }}
+                key={href}
+                onClick={() => scrollTo(href)}
+                className="relative font-mono text-[11px] tracking-widest uppercase transition-colors duration-200"
+                style={{ color: isActive ? "#ffffff" : "#555555" }}
               >
-                {active === id && (
-                  <motion.span
-                    layoutId="nav-dot"
-                    className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-none bg-primary"
-                    style={{ boxShadow: "0 0 6px #00ff9f" }}
+                {label}
+                {isActive && (
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute -bottom-1 left-0 right-0 h-[1px] bg-[#FF4D2D]"
                   />
                 )}
+              </button>
+            );
+          })}
+        </div>
+
+        <button
+          className="md:hidden font-mono text-[10px] tracking-widest uppercase text-[#555] hover:text-white transition-colors"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? "CLOSE" : "MENU"}
+        </button>
+      </nav>
+
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className="md:hidden fixed inset-0 z-[999] bg-[#050505] flex flex-col items-center justify-center gap-8"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            {NAV_LINKS.map(({ label, href }) => (
+              <button
+                key={href}
+                onClick={() => scrollTo(href)}
+                className="font-display font-black text-3xl text-white hover:text-[#FF4D2D] transition-colors duration-200 uppercase"
+              >
                 {label}
               </button>
             ))}
-          </div>
-        </motion.nav>
-      )}
-    </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }

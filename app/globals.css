@@ -1,172 +1,78 @@
-/* app/globals.css */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg: #0a0a0f;
-  --primary: #00ff9f;
-  --accent: #ff2d78;
-  --secondary: #00cfff;
-  --muted: #3a3a4a;
-  --text: #e0e0e0;
-  --glow-green: 0 0 10px #00ff9f, 0 0 20px #00ff9f40;
-  --glow-pink: 0 0 10px #ff2d78, 0 0 20px #ff2d7840;
-  --glow-cyan: 0 0 10px #00cfff, 0 0 20px #00cfff40;
-  --glow-gold: 0 0 10px #ffd700, 0 0 20px #ffd70040;
+  --red: #FF4D2D;
+  --bg: #050505;
+  --bg-2: #080808;
+  --border: rgba(255, 255, 255, 0.07);
+  --muted: #333333;
+  --subtle: #555555;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 html {
   scroll-behavior: smooth;
-  cursor: none;
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  font-family: 'VT323', monospace;
+  background: var(--bg);
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* CRT scanlines overlay */
-body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.08) 2px,
-    rgba(0, 0, 0, 0.08) 4px
-  );
-  pointer-events: none;
-  z-index: 9998;
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--red); }
+
+/* Noise texture overlay class */
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
 }
 
-/* Noise texture overlay */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9997;
-  opacity: 0.4;
+/* Ticker animation */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-/* Scroll snap */
-.snap-container {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
+/* Cursor hidden on desktop when custom cursor active */
+@media (pointer: fine) {
+  body { cursor: none; }
+  a, button { cursor: none; }
 }
 
-.snap-section {
-  scroll-snap-align: start;
-  min-height: 100vh;
-}
-
-/* Pixel border utility */
-.pixel-border {
-  box-shadow:
-    inset -2px -2px 0 0 var(--muted),
-    inset 2px 2px 0 0 var(--primary);
-  image-rendering: pixelated;
-}
-
-.pixel-border-glow {
-  box-shadow:
-    inset -2px -2px 0 0 var(--muted),
-    inset 2px 2px 0 0 var(--primary),
-    var(--glow-green);
-}
-
-/* Neon text glow utilities */
-.glow-green { text-shadow: var(--glow-green); }
-.glow-pink  { text-shadow: var(--glow-pink); }
-.glow-cyan  { text-shadow: var(--glow-cyan); }
-.glow-gold  { text-shadow: var(--glow-gold); }
-
-/* Glitch pseudo-elements */
-.glitch {
+/* Section spacing */
+section {
   position: relative;
 }
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.glitch::before {
-  color: var(--accent);
-  animation: glitch1 0.3s infinite linear alternate-reverse;
-}
-.glitch::after {
-  color: var(--secondary);
-  animation: glitch2 0.3s infinite linear alternate-reverse;
+
+/* Ghost outline text utility */
+.text-outline-red {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 77, 45, 0.55);
 }
 
-@keyframes glitch1 {
-  0%   { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 0); }
-  20%  { clip-path: inset(92% 0 1% 0);  transform: translate(1px, 0); }
-  40%  { clip-path: inset(43% 0 1% 0);  transform: translate(-1px, 0); }
-  60%  { clip-path: inset(25% 0 58% 0); transform: translate(2px, 0); }
-  80%  { clip-path: inset(54% 0 7% 0);  transform: translate(-1px, 0); }
-  100% { clip-path: inset(58% 0 43% 0); transform: translate(1px, 0); }
+/* Red accent line utility */
+.red-rule {
+  width: 40px;
+  height: 1px;
+  background: var(--red);
 }
 
-@keyframes glitch2 {
-  0%   { clip-path: inset(25% 0 58% 0); transform: translate(2px, 0); }
-  20%  { clip-path: inset(54% 0 7% 0);  transform: translate(-2px, 0); }
-  40%  { clip-path: inset(58% 0 43% 0); transform: translate(1px, 0); }
-  60%  { clip-path: inset(40% 0 61% 0); transform: translate(-1px, 0); }
-  80%  { clip-path: inset(92% 0 1% 0);  transform: translate(2px, 0); }
-  100% { clip-path: inset(43% 0 1% 0);  transform: translate(-2px, 0); }
+/* Section label utility */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red);
 }
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
-@keyframes floatUp {
-  0%   { transform: translateY(100vh) translateX(0px);  opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
-}
-
-@keyframes pixelBounce {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-8px); }
-}
-
-/* Confetti pieces */
-@keyframes confettiFall {
-  0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
-  100% { transform: translateY(300px) rotate(720deg); opacity: 0; }
-}
-
-/* 8-bit style scrollbar */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--primary); image-rendering: pixelated; }

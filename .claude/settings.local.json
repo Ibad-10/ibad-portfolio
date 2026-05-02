@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.raviklaassens.com)",
+      "WebFetch(domain:itomdev.com)",
+      "WebFetch(domain:www.shader.se)"
+    ]
+  },
+  "enabledPlugins": {
+    "postiz@claude-plugins-official": true
+  }
+}

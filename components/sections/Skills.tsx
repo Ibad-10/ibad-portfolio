@@ -1,128 +1,127 @@
 "use client";
 import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
-import { PixelProgressBar } from "@/components/ui/PixelProgressBar";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
-const SKILLS = {
-  Languages: [
-    { name: "TypeScript", value: 85 },
-    { name: "JavaScript", value: 88 },
-    { name: "Python",     value: 78 },
-    { name: "C#",         value: 65 },
-    { name: "Rust",       value: 50 },
-    { name: "C++",        value: 55 },
-    { name: "Java",       value: 60 },
+const SKILLS: Record<string, { name: string; hot?: boolean }[]> = {
+  "Web & Software": [
+    { name: "TypeScript", hot: true },
+    { name: "JavaScript", hot: true },
+    { name: "Python", hot: true },
+    { name: "C" },
+    { name: "C++", hot: true },
+    { name: "Java" },
+    { name: "MATLAB" },
+    { name: "SQL" },
+    { name: "VBA" },
+    { name: "Assembly" },
+    { name: "Verilog HDL" },
   ],
-  Frontend: [
-    { name: "React / Next.js", value: 88 },
-    { name: "Tailwind CSS",    value: 85 },
-    { name: "Framer Motion",   value: 75 },
-    { name: "HTML / CSS",      value: 90 },
+  "Frontend": [
+    { name: "React / Next.js", hot: true },
+    { name: "Tailwind CSS" },
+    { name: "Framer Motion" },
+    { name: "HTML / CSS" },
   ],
-  Backend: [
-    { name: "Node / Express", value: 80 },
-    { name: "FastAPI",        value: 70 },
-    { name: "Socket.io",      value: 68 },
-    { name: "PostgreSQL",     value: 65 },
-    { name: "MongoDB",        value: 70 },
+  "Backend": [
+    { name: "Node / Express" },
+    { name: "FastAPI" },
+    { name: "Flask", hot: true },
+    { name: "Socket.io" },
+    { name: "PostgreSQL" },
+    { name: "MongoDB" },
+    { name: "SQLAlchemy" },
+    { name: "REST APIs" },
   ],
-  Tools: [
-    { name: "Docker",       value: 60 },
-    { name: "Vercel",       value: 85 },
-    { name: "Figma",        value: 70 },
-    { name: "Raspberry Pi", value: 72 },
-    { name: "Git",          value: 88 },
+  "Controls & Automation": [
+    { name: "PLC Programming", hot: true },
+    { name: "Siemens TIA Portal V17", hot: true },
+    { name: "WAGO e!COCKPIT" },
+    { name: "Ladder Logic" },
+    { name: "Industry 4.0" },
   ],
-};
-
-const COLORS: Record<string, string> = {
-  Languages: "#00ff9f",
-  Frontend:  "#00cfff",
-  Backend:   "#ff2d78",
-  Tools:     "#ffd700",
+  "Embedded & Hardware": [
+    { name: "Arduino", hot: true },
+    { name: "Raspberry Pi (Pico)" },
+    { name: "FPGA" },
+    { name: "Sensor Integration" },
+    { name: "Embedded C" },
+    { name: "Soldering" },
+    { name: "Breadboarding" },
+  ],
+  "Data & Tools": [
+    { name: "SAP", hot: true },
+    { name: "SAP Analytics Cloud" },
+    { name: "Oracle SQL / APEX" },
+    { name: "Pandas" },
+    { name: "NumPy" },
+    { name: "Docker" },
+    { name: "Vercel", hot: true },
+    { name: "Git", hot: true },
+    { name: "Figma" },
+    { name: "Fusion 360" },
+    { name: "LabVIEW" },
+  ],
 };
 
 type Category = keyof typeof SKILLS;
 
 export function Skills() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [activeTab, setActiveTab] = useState<Category>("Languages");
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [active, setActive] = useState<Category>("Web & Software");
 
   return (
-    <section id="skills" ref={ref} className="snap-section flex items-center bg-bg px-6 py-20">
-      <div className="max-w-5xl mx-auto w-full">
-        <motion.h2
-          className="font-pixel text-primary text-lg md:text-2xl mb-10 glow-green"
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          &gt; SKILL_TREE<span className="animate-blink">_</span>
-        </motion.h2>
+    <section id="skills" ref={ref} className="bg-[#050505] px-6 md:px-12 py-24">
+      <motion.p
+        className="section-label mb-8"
+        initial={{ opacity: 0, x: -20 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+      >
+        [ 03 ] — Skills
+      </motion.p>
 
-        {/* Tab buttons */}
-        <div className="flex flex-wrap gap-3 mb-8">
-          {(Object.keys(SKILLS) as Category[]).map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveTab(cat)}
-              className="font-pixel text-[8px] px-4 py-2 border transition-all duration-200"
-              style={{
-                borderColor: activeTab === cat ? COLORS[cat] : "#3a3a4a",
-                color: activeTab === cat ? COLORS[cat] : "#3a3a4a",
-                boxShadow: activeTab === cat ? `0 0 10px ${COLORS[cat]}40` : "none",
-              }}
-            >
-              {cat.toUpperCase()}
-            </button>
-          ))}
-        </div>
+      <div className="flex flex-wrap gap-2 mb-10">
+        {(Object.keys(SKILLS) as Category[]).map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setActive(cat)}
+            className="font-mono text-[10px] tracking-widest uppercase px-4 py-2 border transition-all duration-200"
+            style={{
+              borderColor: active === cat ? "#FF4D2D" : "rgba(255,255,255,0.07)",
+              color: active === cat ? "#FF4D2D" : "#555555",
+            }}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
 
-        {/* Progress bars */}
+      <AnimatePresence mode="wait">
         <motion.div
-          key={activeTab}
+          key={active}
+          className="flex flex-wrap gap-2"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="grid md:grid-cols-2 gap-x-12"
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.25 }}
         >
-          {SKILLS[activeTab].map((skill) => (
-            <PixelProgressBar
-              key={skill.name}
-              label={skill.name}
-              value={skill.value}
-              color={COLORS[activeTab]}
-            />
-          ))}
-        </motion.div>
-
-        {/* Skill badges */}
-        <motion.div
-          className="flex flex-wrap gap-3 mt-8"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.5 }}
-        >
-          {SKILLS[activeTab].map((skill, i) => (
+          {SKILLS[active].map((skill, i) => (
             <motion.span
               key={skill.name}
-              initial={{ scale: 0 }}
-              animate={inView ? { scale: 1 } : {}}
-              transition={{ delay: 0.6 + i * 0.05, type: "spring", stiffness: 300 }}
-              className="font-mono text-base px-3 py-1 border"
+              className="font-mono text-[11px] tracking-wide px-3 py-2 border transition-all duration-200 hover:-translate-y-0.5"
               style={{
-                borderColor: COLORS[activeTab],
-                color: COLORS[activeTab],
-                boxShadow: `0 0 6px ${COLORS[activeTab]}40`,
-                imageRendering: "pixelated",
+                borderColor: skill.hot ? "#FF4D2D" : "rgba(255,255,255,0.1)",
+                color: skill.hot ? "#FF4D2D" : "#888888",
               }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.04 }}
             >
               {skill.name}
             </motion.span>
           ))}
         </motion.div>
-      </div>
+      </AnimatePresence>
     </section>
   );
 }
