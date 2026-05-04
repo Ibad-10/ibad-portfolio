@@ -28,8 +28,8 @@ export function Photography() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") { next(); resetAuto(); }
-      if (e.key === "ArrowLeft")  { prev(); resetAuto(); }
+      if (e.key === "ArrowRight") { next(); if (autoRef.current) clearInterval(autoRef.current); autoRef.current = setInterval(next, 4000); }
+      if (e.key === "ArrowLeft")  { prev(); if (autoRef.current) clearInterval(autoRef.current); autoRef.current = setInterval(next, 4000); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -92,13 +92,13 @@ export function Photography() {
         onMouseUp={(e) => {
           if (!didDrag.current) return;
           const delta = dragStart.current - e.clientX;
-          if (Math.abs(delta) > 40) { delta > 0 ? next() : prev(); resetAuto(); }
+          if (Math.abs(delta) > 40) { if (delta > 0) next(); else prev(); resetAuto(); }
         }}
         onTouchStart={(e) => { dragStart.current = e.touches[0].clientX; didDrag.current = false; }}
         onTouchMove={(e) => { if (Math.abs(e.touches[0].clientX - dragStart.current) > 8) didDrag.current = true; }}
         onTouchEnd={(e) => {
           const delta = dragStart.current - e.changedTouches[0].clientX;
-          if (Math.abs(delta) > 40) { delta > 0 ? next() : prev(); resetAuto(); }
+          if (Math.abs(delta) > 40) { if (delta > 0) next(); else prev(); resetAuto(); }
         }}
       >
         {indices.map((photoIdx, slot) => {
@@ -121,7 +121,7 @@ export function Photography() {
               onClick={() => {
                 if (!didDrag.current) {
                   if (isCenter) setLightbox(photo);
-                  else { slot < 2 ? prev() : next(); resetAuto(); }
+                  else { if (slot < 2) prev(); else next(); resetAuto(); }
                 }
               }}
             >
