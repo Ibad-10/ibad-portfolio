@@ -9,6 +9,15 @@ const PHOTOS = Array.from({ length: 39 }, (_, i) => ({
   alt: `Photography ${i + 1}`,
 }));
 
+// pixel offsets per slot — safe, no percentage bleed
+const SLOTS = [
+  { dx: -2, scale: 0.70, opacity: 0.30, blur: "blur(3px)", z: 1 },
+  { dx: -1, scale: 0.84, opacity: 0.60, blur: "blur(1px)", z: 2 },
+  { dx:  0, scale: 1.00, opacity: 1.00, blur: "none",      z: 3 },
+  { dx:  1, scale: 0.84, opacity: 0.60, blur: "blur(1px)", z: 2 },
+  { dx:  2, scale: 0.70, opacity: 0.30, blur: "blur(3px)", z: 1 },
+];
+
 export function Photography() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -21,6 +30,11 @@ export function Photography() {
   const next = useCallback(() => setCurrent((c) => (c + 1) % PHOTOS.length), []);
   const prev = useCallback(() => setCurrent((c) => (c - 1 + PHOTOS.length) % PHOTOS.length), []);
 
+  function resetAuto() {
+    if (autoRef.current) clearInterval(autoRef.current);
+    autoRef.current = setInterval(next, 4000);
+  }
+
   useEffect(() => {
     autoRef.current = setInterval(next, 4000);
     return () => { if (autoRef.current) clearInterval(autoRef.current); };
@@ -28,34 +42,25 @@ export function Photography() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") { next(); if (autoRef.current) clearInterval(autoRef.current); autoRef.current = setInterval(next, 4000); }
-      if (e.key === "ArrowLeft")  { prev(); if (autoRef.current) clearInterval(autoRef.current); autoRef.current = setInterval(next, 4000); }
+      if (e.key === "ArrowRight") { next(); resetAuto(); }
+      if (e.key === "ArrowLeft")  { prev(); resetAuto(); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [next, prev]);
 
-  function resetAuto() {
-    if (autoRef.current) clearInterval(autoRef.current);
-    autoRef.current = setInterval(next, 4000);
-  }
-
-  // Precompute indices for the visible strip: prev2, prev1, current, next1, next2
-  const indices = [-2, -1, 0, 1, 2].map(
-    (o) => (current + o + PHOTOS.length) % PHOTOS.length
-  );
-
-  const CARD_CONFIGS = [
-    // [xPercent, scale, opacity, zIndex, blur]
-    { x: "-72%", scale: 0.72, opacity: 0.35, z: 1, blur: "blur(2px)" },
-    { x: "-38%", scale: 0.86, opacity: 0.65, z: 2, blur: "blur(1px)" },
-    { x: "0%",   scale: 1,    opacity: 1,    z: 3, blur: "none" },
-    { x: "38%",  scale: 0.86, opacity: 0.65, z: 2, blur: "blur(1px)" },
-    { x: "72%",  scale: 0.72, opacity: 0.35, z: 1, blur: "blur(2px)" },
-  ];
+  const CARD_W = 340; // px — base card width
+  const GAP    = 180; // px — spacing between card centres
 
   return (
-    <section id="photography" ref={ref} className="bg-[#050505] py-24 overflow-hidden">
+    <section
+      id="photography"
+      ref={ref}
+      className="bg-[#050505] py-24 w-full"
+      style={{ overflowX: "hidden" }}
+    >
+      {/* Header */}
       <div className="px-6 md:px-12">
         <motion.p
           className="section-label mb-4"
@@ -80,10 +85,13 @@ export function Photography() {
         </div>
       </div>
 
-      {/* Carousel — full width, no side padding */}
+      {/* Stage — clipped so cards don't affect page width */}
       <motion.div
         className="relative w-full flex items-center justify-center"
-        style={{ height: "clamp(340px, 55vw, 680px)" }}
+        style={{
+          height: "clamp(300px, 52vw, 620px)",
+          overflow: "hidden",
+        }}
         initial={{ opacity: 0, y: 40 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ delay: 0.2, duration: 0.7 }}
@@ -95,59 +103,56 @@ export function Photography() {
           if (Math.abs(delta) > 40) { if (delta > 0) next(); else prev(); resetAuto(); }
         }}
         onTouchStart={(e) => { dragStart.current = e.touches[0].clientX; didDrag.current = false; }}
-        onTouchMove={(e) => { if (Math.abs(e.touches[0].clientX - dragStart.current) > 8) didDrag.current = true; }}
+        onTouchMove={(e) => {
+          if (Math.abs(e.touches[0].clientX - dragStart.current) > 8) didDrag.current = true;
+        }}
         onTouchEnd={(e) => {
           const delta = dragStart.current - e.changedTouches[0].clientX;
           if (Math.abs(delta) > 40) { if (delta > 0) next(); else prev(); resetAuto(); }
         }}
       >
-        {indices.map((photoIdx, slot) => {
-          const cfg = CARD_CONFIGS[slot];
-          const isCenter = slot === 2;
+        {SLOTS.map((slot, i) => {
+          const photoIdx = (current + slot.dx + PHOTOS.length) % PHOTOS.length;
           const photo = PHOTOS[photoIdx];
+          const isCenter = slot.dx === 0;
+          const translateX = slot.dx * GAP;
 
           return (
             <motion.div
-              key={`${photoIdx}-${slot}`}
-              className="absolute top-0 bottom-0 flex items-center justify-center"
-              style={{ width: "clamp(240px, 38vw, 560px)", zIndex: cfg.z }}
+              key={`${i}-${current}`}
+              className="absolute flex items-center justify-center"
+              style={{
+                width: CARD_W,
+                zIndex: slot.z,
+                top: 0,
+                bottom: 0,
+              }}
               animate={{
-                x: cfg.x,
-                scale: cfg.scale,
-                opacity: cfg.opacity,
-                filter: cfg.blur,
+                x: translateX,
+                scale: slot.scale,
+                opacity: slot.opacity,
+                filter: slot.blur,
               }}
               transition={{ type: "spring", stiffness: 260, damping: 32 }}
               onClick={() => {
-                if (!didDrag.current) {
-                  if (isCenter) setLightbox(photo);
-                  else { if (slot < 2) prev(); else next(); resetAuto(); }
-                }
+                if (didDrag.current) return;
+                if (isCenter) setLightbox(photo);
+                else { if (slot.dx < 0) prev(); else next(); resetAuto(); }
               }}
             >
-              {/* Card — natural height, image uncropped */}
-              <div
-                className="w-full relative overflow-hidden"
-                style={{
-                  background: "#0a0a0a",
-                  border: "none",
-                  boxShadow: isCenter
-                    ? "0 40px 100px rgba(0,0,0,0.85)"
-                    : "0 20px 60px rgba(0,0,0,0.6)",
-                }}
-              >
+              <div className="w-full relative overflow-hidden" style={{ background: "#080808" }}>
                 <Image
                   src={photo.src}
                   alt={photo.alt}
-                  width={900}
-                  height={1200}
-                  className="w-full h-auto object-contain block"
-                  style={{ maxHeight: "clamp(320px, 50vw, 640px)" }}
+                  width={800}
+                  height={1067}
+                  className="w-full h-auto block"
+                  style={{ maxHeight: "clamp(260px, 44vw, 560px)", objectFit: "contain" }}
                   draggable={false}
                   priority={isCenter}
                 />
                 {isCenter && (
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                     <p className="font-mono text-[9px] text-white/50 tracking-widest uppercase">
                       Click to expand
                     </p>
@@ -160,7 +165,7 @@ export function Photography() {
       </motion.div>
 
       {/* Controls */}
-      <div className="flex items-center justify-center gap-6 mt-10 px-6">
+      <div className="flex items-center justify-center gap-4 mt-8 px-6 flex-wrap">
         <button
           onClick={() => { prev(); resetAuto(); }}
           className="font-mono text-[11px] text-[#444] hover:text-white tracking-widest uppercase border border-white/5 hover:border-white/20 px-5 py-2 transition-all duration-200"
@@ -168,10 +173,12 @@ export function Photography() {
           ← PREV
         </button>
 
-        {/* Dot indicators — condensed */}
-        <div className="flex items-center gap-1.5 overflow-hidden max-w-[160px]">
+        <div className="flex items-center gap-1.5">
           {PHOTOS.map((_, i) => {
-            const dist = Math.min(Math.abs(i - current), PHOTOS.length - Math.abs(i - current));
+            const dist = Math.min(
+              Math.abs(i - current),
+              PHOTOS.length - Math.abs(i - current)
+            );
             if (dist > 5) return null;
             return (
               <button
