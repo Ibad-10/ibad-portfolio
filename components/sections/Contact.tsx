@@ -27,14 +27,23 @@ export function Contact() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setSending(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
       setSent(true);
-      setSending(false);
       setForm({ name: "", email: "", message: "" });
-    }, 800);
+    } catch {
+      alert("Something went wrong. Email me directly at zuberi.ibad@gmail.com");
+    } finally {
+      setSending(false);
+    }
   }
 
   const inputClass =
