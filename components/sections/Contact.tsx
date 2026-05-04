@@ -36,11 +36,15 @@ export function Contact() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Unknown error");
+      }
       setSent(true);
       setForm({ name: "", email: "", message: "" });
-    } catch {
-      alert("Something went wrong. Email me directly at zuberi.ibad@gmail.com");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      alert(`Failed to send: ${msg}\n\nEmail directly: zuberi.ibad@gmail.com`);
     } finally {
       setSending(false);
     }
