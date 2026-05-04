@@ -9,156 +9,139 @@ const PHOTOS = Array.from({ length: 39 }, (_, i) => ({
   alt: `Photography ${i + 1}`,
 }));
 
-const VISIBLE = 5; // cards visible in stack
-
-function getCardStyle(offset: number, total: number) {
-  // offset: 0 = front, positive = behind
-  const absOff = Math.abs(offset);
-  const sign = offset < 0 ? -1 : 1;
-
-  if (absOff > Math.floor(VISIBLE / 2)) return null; // hidden
-
-  const depth = absOff / VISIBLE;
-  const scale = 1 - depth * 0.12;
-  const translateX = sign * absOff * 60;
-  const translateY = absOff * 8;
-  const rotateY = sign * absOff * -6;
-  const opacity = 1 - depth * 0.5;
-  const zIndex = total - absOff;
-
-  return { scale, translateX, translateY, rotateY, opacity, zIndex };
-}
-
 export function Photography() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [current, setCurrent] = useState(0);
   const [lightbox, setLightbox] = useState<null | (typeof PHOTOS)[0]>(null);
-  const [dragging, setDragging] = useState(false);
-  const dragStart = useRef(0);
   const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const dragStart = useRef(0);
+  const didDrag = useRef(false);
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % PHOTOS.length), []);
   const prev = useCallback(() => setCurrent((c) => (c - 1 + PHOTOS.length) % PHOTOS.length), []);
 
-  // Auto-advance
   useEffect(() => {
-    autoRef.current = setInterval(next, 3500);
+    autoRef.current = setInterval(next, 4000);
     return () => { if (autoRef.current) clearInterval(autoRef.current); };
   }, [next]);
 
   function resetAuto() {
     if (autoRef.current) clearInterval(autoRef.current);
-    autoRef.current = setInterval(next, 3500);
+    autoRef.current = setInterval(next, 4000);
   }
 
-  function handleDragStart(x: number) {
-    setDragging(true);
-    dragStart.current = x;
-  }
+  // Precompute indices for the visible strip: prev2, prev1, current, next1, next2
+  const indices = [-2, -1, 0, 1, 2].map(
+    (o) => (current + o + PHOTOS.length) % PHOTOS.length
+  );
 
-  function handleDragEnd(x: number) {
-    setDragging(false);
-    const delta = dragStart.current - x;
-    if (Math.abs(delta) > 40) {
-      delta > 0 ? next() : prev();
-      resetAuto();
-    }
-  }
-
-  const half = Math.floor(VISIBLE / 2);
+  const CARD_CONFIGS = [
+    // [xPercent, scale, opacity, zIndex, blur]
+    { x: "-72%", scale: 0.72, opacity: 0.35, z: 1, blur: "blur(2px)" },
+    { x: "-38%", scale: 0.86, opacity: 0.65, z: 2, blur: "blur(1px)" },
+    { x: "0%",   scale: 1,    opacity: 1,    z: 3, blur: "none" },
+    { x: "38%",  scale: 0.86, opacity: 0.65, z: 2, blur: "blur(1px)" },
+    { x: "72%",  scale: 0.72, opacity: 0.35, z: 1, blur: "blur(2px)" },
+  ];
 
   return (
-    <section id="photography" ref={ref} className="bg-[#050505] px-6 md:px-12 py-24 overflow-hidden">
-      <motion.p
-        className="section-label mb-4"
-        initial={{ opacity: 0, x: -20 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-      >
-        [ 06 ] — Through the Lens
-      </motion.p>
-
-      <div className="flex items-center justify-between mb-12">
+    <section id="photography" ref={ref} className="bg-[#050505] py-24 overflow-hidden">
+      <div className="px-6 md:px-12">
         <motion.p
-          className="font-mono text-[11px] text-[#444] tracking-widest uppercase"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.15 }}
+          className="section-label mb-4"
+          initial={{ opacity: 0, x: -20 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
         >
-          Street · Architecture · London
+          [ 06 ] — Through the Lens
         </motion.p>
-        <span className="font-mono text-[10px] text-[#333] tracking-widest">
-          {String(current + 1).padStart(2, "0")} / {String(PHOTOS.length).padStart(2, "0")}
-        </span>
+
+        <div className="flex items-center justify-between mb-10">
+          <motion.p
+            className="font-mono text-[11px] text-[#444] tracking-widest uppercase"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.15 }}
+          >
+            Street · Architecture · London
+          </motion.p>
+          <span className="font-mono text-[10px] text-[#333] tracking-widest">
+            {String(current + 1).padStart(2, "0")} / {String(PHOTOS.length).padStart(2, "0")}
+          </span>
+        </div>
       </div>
 
-      {/* Carousel stage */}
+      {/* Carousel — full width, no side padding */}
       <motion.div
-        className="relative flex items-center justify-center select-none"
-        style={{ height: "clamp(280px, 50vw, 520px)", perspective: "1200px" }}
+        className="relative w-full flex items-center justify-center"
+        style={{ height: "clamp(340px, 55vw, 680px)" }}
         initial={{ opacity: 0, y: 40 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ delay: 0.2, duration: 0.7 }}
-        onMouseDown={(e) => handleDragStart(e.clientX)}
-        onMouseUp={(e) => handleDragEnd(e.clientX)}
-        onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
-        onTouchEnd={(e) => handleDragEnd(e.changedTouches[0].clientX)}
+        onMouseDown={(e) => { dragStart.current = e.clientX; didDrag.current = false; }}
+        onMouseMove={(e) => { if (Math.abs(e.clientX - dragStart.current) > 8) didDrag.current = true; }}
+        onMouseUp={(e) => {
+          if (!didDrag.current) return;
+          const delta = dragStart.current - e.clientX;
+          if (Math.abs(delta) > 40) { delta > 0 ? next() : prev(); resetAuto(); }
+        }}
+        onTouchStart={(e) => { dragStart.current = e.touches[0].clientX; didDrag.current = false; }}
+        onTouchMove={(e) => { if (Math.abs(e.touches[0].clientX - dragStart.current) > 8) didDrag.current = true; }}
+        onTouchEnd={(e) => {
+          const delta = dragStart.current - e.changedTouches[0].clientX;
+          if (Math.abs(delta) > 40) { delta > 0 ? next() : prev(); resetAuto(); }
+        }}
       >
-        {Array.from({ length: VISIBLE }, (_, i) => {
-          const offset = i - half;
-          const photoIdx = (current + offset + PHOTOS.length) % PHOTOS.length;
+        {indices.map((photoIdx, slot) => {
+          const cfg = CARD_CONFIGS[slot];
+          const isCenter = slot === 2;
           const photo = PHOTOS[photoIdx];
-          const style = getCardStyle(offset, VISIBLE);
-          if (!style) return null;
 
           return (
             <motion.div
-              key={`${photoIdx}-${current}`}
-              className="absolute"
-              style={{
-                zIndex: style.zIndex,
-                width: "clamp(180px, 28vw, 360px)",
-                height: "clamp(240px, 38vw, 480px)",
-              }}
+              key={`${photoIdx}-${slot}`}
+              className="absolute top-0 bottom-0 flex items-center justify-center"
+              style={{ width: "clamp(240px, 38vw, 560px)", zIndex: cfg.z }}
               animate={{
-                x: style.translateX,
-                y: style.translateY,
-                scale: style.scale,
-                rotateY: style.rotateY,
-                opacity: style.opacity,
+                x: cfg.x,
+                scale: cfg.scale,
+                opacity: cfg.opacity,
+                filter: cfg.blur,
               }}
-              transition={{ type: "spring", stiffness: 280, damping: 30 }}
+              transition={{ type: "spring", stiffness: 260, damping: 32 }}
               onClick={() => {
-                if (offset === 0 && !dragging) {
-                  setLightbox(photo);
-                } else if (!dragging) {
-                  offset > 0 ? next() : prev();
-                  resetAuto();
+                if (!didDrag.current) {
+                  if (isCenter) setLightbox(photo);
+                  else { slot < 2 ? prev() : next(); resetAuto(); }
                 }
               }}
-              whileHover={offset === 0 ? { scale: style.scale * 1.02 } : {}}
             >
+              {/* Card — natural height, image uncropped */}
               <div
-                className="relative w-full h-full overflow-hidden"
+                className="w-full relative overflow-hidden"
                 style={{
-                  border: offset === 0 ? "1px solid rgba(255,77,45,0.4)" : "1px solid rgba(255,255,255,0.04)",
-                  boxShadow: offset === 0
-                    ? "0 30px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,77,45,0.2)"
+                  background: "#0a0a0a",
+                  border: isCenter
+                    ? "1px solid rgba(255,77,45,0.5)"
+                    : "1px solid rgba(255,255,255,0.06)",
+                  boxShadow: isCenter
+                    ? "0 40px 100px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,77,45,0.15)"
                     : "0 20px 60px rgba(0,0,0,0.6)",
                 }}
               >
                 <Image
                   src={photo.src}
                   alt={photo.alt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 60vw, 30vw"
+                  width={900}
+                  height={1200}
+                  className="w-full h-auto object-contain block"
+                  style={{ maxHeight: "clamp(320px, 50vw, 640px)" }}
                   draggable={false}
+                  priority={isCenter}
                 />
-                {/* Front card overlay on hover */}
-                {offset === 0 && (
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent flex items-end p-4 opacity-0 hover:opacity-100 transition-opacity duration-300">
-                    <p className="font-mono text-[9px] text-white/60 tracking-widest uppercase">
+                {isCenter && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <p className="font-mono text-[9px] text-white/50 tracking-widest uppercase">
                       Click to expand
                     </p>
                   </div>
@@ -170,7 +153,7 @@ export function Photography() {
       </motion.div>
 
       {/* Controls */}
-      <div className="flex items-center justify-center gap-6 mt-10">
+      <div className="flex items-center justify-center gap-6 mt-10 px-6">
         <button
           onClick={() => { prev(); resetAuto(); }}
           className="font-mono text-[11px] text-[#444] hover:text-white tracking-widest uppercase border border-white/5 hover:border-white/20 px-5 py-2 transition-all duration-200"
@@ -178,19 +161,18 @@ export function Photography() {
           ← PREV
         </button>
 
-        {/* Dot strip — show 7 around current */}
-        <div className="flex items-center gap-1.5">
+        {/* Dot indicators — condensed */}
+        <div className="flex items-center gap-1.5 overflow-hidden max-w-[160px]">
           {PHOTOS.map((_, i) => {
-            const dist = Math.abs(i - current);
-            const wrapped = Math.min(dist, PHOTOS.length - dist);
-            if (wrapped > 4) return null;
+            const dist = Math.min(Math.abs(i - current), PHOTOS.length - Math.abs(i - current));
+            if (dist > 5) return null;
             return (
               <button
                 key={i}
                 onClick={() => { setCurrent(i); resetAuto(); }}
-                className="rounded-full transition-all duration-300"
+                className="rounded-full flex-shrink-0 transition-all duration-300"
                 style={{
-                  width: i === current ? 20 : 5,
+                  width: i === current ? 18 : 5,
                   height: 5,
                   background: i === current ? "#FF4D2D" : "rgba(255,255,255,0.15)",
                 }}
