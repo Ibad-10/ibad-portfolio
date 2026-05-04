@@ -26,6 +26,15 @@ export function Photography() {
     return () => { if (autoRef.current) clearInterval(autoRef.current); };
   }, [next]);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") { next(); resetAuto(); }
+      if (e.key === "ArrowLeft")  { prev(); resetAuto(); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [next, prev]);
+
   function resetAuto() {
     if (autoRef.current) clearInterval(autoRef.current);
     autoRef.current = setInterval(next, 4000);
@@ -121,11 +130,9 @@ export function Photography() {
                 className="w-full relative overflow-hidden"
                 style={{
                   background: "#0a0a0a",
-                  border: isCenter
-                    ? "1px solid rgba(255,77,45,0.5)"
-                    : "1px solid rgba(255,255,255,0.06)",
+                  border: "none",
                   boxShadow: isCenter
-                    ? "0 40px 100px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,77,45,0.15)"
+                    ? "0 40px 100px rgba(0,0,0,0.85)"
                     : "0 20px 60px rgba(0,0,0,0.6)",
                 }}
               >
