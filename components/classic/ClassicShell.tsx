@@ -6,6 +6,7 @@ import { ModeSwitch } from "@/components/mode/ModeSwitch";
 import { profile } from "@/lib/data";
 
 const LINKS = [
+  { label: "About", href: "/#about" },
   { label: "Experience", href: "/#experience" },
   { label: "Projects", href: "/#projects" },
   { label: "Skills", href: "/#skills" },

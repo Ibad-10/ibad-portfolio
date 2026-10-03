@@ -282,3 +282,8 @@ Deviations from the plan/spec:
 - Photography is a lazy thumbnail grid with lightbox (no autoplay carousel), for accessibility.
 - Project detail pages share one presentation across both modes.
 - Not done: Lighthouse scores, real-device and real-Safari testing, generated poster images, replacing `public/Ibad_CV.pdf` with the new CV (owner to supply).
+
+
+### Phase 2 status (2026-10-03)
+Built: `/trophies` (3D trophy shelf, lazy, desktop only, with a full text list below), `/training`, `/squad` (CSS-3D tilting player card), `/media`, `/contact`, a new About section in Classic Mode, all hub tiles now active, and the new CV PDF installed at `public/Ibad_CV.pdf`. Lint, typecheck, 36 tests, build and axe (0 issues across 10 routes, both modes, both themes) pass.
+Still open: Phase 3 (penalty shootout, leaderboard, sound), a software-flavoured CV alongside the electronics one, Lighthouse and real-device testing.

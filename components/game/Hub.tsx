@@ -11,11 +11,11 @@ const TILES: Tile[] = [
   { id: "transfers", label: "Transfers", blurb: "BMW, EY, Cloud Nebula: my career so far", href: "/transfers" },
   { id: "matches", label: "Match Centre", blurb: "Projects, results and hackathon fixtures", href: "/matches" },
   { id: "recruiter", label: "Recruiter view", blurb: "A clean one-page CV, printable", href: "/recruiter" },
-  { id: "trophies", label: "Trophy Room", blurb: "Hackathon wins" },
-  { id: "training", label: "Training Ground", blurb: "Skills and attributes" },
-  { id: "squad", label: "Squad", blurb: "About me" },
-  { id: "media", label: "Media", blurb: "Photography" },
-  { id: "contact", label: "Contact", blurb: "Get in touch" },
+  { id: "trophies", label: "Trophy Room", blurb: "Hackathon wins", href: "/trophies" },
+  { id: "training", label: "Training Ground", blurb: "Skills and attributes", href: "/training" },
+  { id: "squad", label: "Squad", blurb: "About me", href: "/squad" },
+  { id: "media", label: "Media", blurb: "Photography", href: "/media" },
+  { id: "contact", label: "Contact", blurb: "Get in touch", href: "/contact" },
 ];
 
 export function Hub() {

@@ -36,3 +36,17 @@ describe("content data", () => {
     expect(hackathons.length).toBeGreaterThan(0);
   });
 });
+
+import { trophyTier, about } from "./index";
+
+describe("phase 2 data", () => {
+  it("maps results to trophy tiers", () => {
+    expect(trophyTier("1st place")).toBe("gold");
+    expect(trophyTier("3rd place")).toBe("bronze");
+    expect(trophyTier("Finalist")).toBe("silver");
+  });
+  it("has about copy and interests", () => {
+    expect(about.paragraphs.length).toBeGreaterThan(0);
+    expect(about.interests.length).toBeGreaterThan(0);
+  });
+});
