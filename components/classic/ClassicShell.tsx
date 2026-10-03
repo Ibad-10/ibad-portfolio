@@ -76,7 +76,8 @@ export function ClassicShell({ children }: { children: React.ReactNode }) {
       </header>
       <main id="main">{children}</main>
       <footer className="no-print border-t border-line/10 px-4 py-8 text-center text-sm text-muted">
-        © {new Date().getFullYear()} {profile.name} · {profile.location}
+        © {new Date().getFullYear()} {profile.name} · {profile.location} ·{" "}
+        <Link href="/play" className="underline underline-offset-2 hover:text-text">Play penalties</Link>
       </footer>
     </div>
   );

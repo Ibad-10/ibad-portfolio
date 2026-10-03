@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { detectWebGL } from "@/lib/webgl";
 import {
   FALLBACK_COOKIE,
   FORCE_COOKIE,
@@ -38,15 +39,6 @@ function writeCookie(name: string, value: string, maxAge?: number) {
 function readCookie(name: string): string | null {
   const m = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
   return m ? decodeURIComponent(m[1]) : null;
-}
-
-function detectWebGL(): boolean {
-  try {
-    const canvas = document.createElement("canvas");
-    return !!(canvas.getContext("webgl2") || canvas.getContext("webgl"));
-  } catch {
-    return false;
-  }
 }
 
 function detectCapabilities(): Capabilities {

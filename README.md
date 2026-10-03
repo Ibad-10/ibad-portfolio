@@ -5,7 +5,7 @@ Next.js 14 (App Router) portfolio with two presentations of the same content:
 - **Game Mode:** a football-game "Career Mode" hub with a lazy-loaded 3D tunnel intro and stadium backdrop (three.js / react-three-fiber). Dark only.
 - **Classic Mode:** a plain, fast, animated portfolio. Light and dark themes.
 
-Visitors choose on first visit and can switch any time (top-bar toggle, or press `M`). Devices without WebGL, or that prefer reduced motion / data saving, fall back to Classic automatically. `/recruiter` is a printable one-page CV.
+Visitors choose on first visit and can switch any time (top-bar toggle, or press `M`). Devices without WebGL, or that prefer reduced motion / data saving, fall back to Classic automatically. `/recruiter` is a printable one-page CV. `/play` is a 3D penalty shootout (best score kept in the browser; sound is synthesised in code and off by default).
 
 ## Run
 

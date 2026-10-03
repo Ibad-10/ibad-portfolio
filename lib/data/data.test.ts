@@ -50,3 +50,14 @@ describe("phase 2 data", () => {
     expect(about.interests.length).toBeGreaterThan(0);
   });
 });
+
+import { existsSync } from "node:fs";
+import path from "node:path";
+
+describe("cv files", () => {
+  it("exist in public/", () => {
+    for (const href of [profile.cv, ...profile.cvs.map((c) => c.href)]) {
+      expect(existsSync(path.join(__dirname, "../../public", href))).toBe(true);
+    }
+  });
+});

@@ -28,9 +28,11 @@ export function ClassicHome() {
             <Link href="#projects" className="rounded-full bg-blue-strong px-6 py-3 font-semibold text-white transition hover:opacity-90">
               View projects
             </Link>
-            <a href={profile.cv} className="rounded-full border border-line/20 px-6 py-3 font-semibold transition hover:border-blue">
-              Download CV
-            </a>
+            {profile.cvs.map((c) => (
+              <a key={c.href} href={c.href} className="rounded-full border border-line/20 px-6 py-3 font-semibold transition hover:border-blue">
+                {c.label}
+              </a>
+            ))}
             <Link href="/recruiter" className="rounded-full border border-line/20 px-6 py-3 font-semibold transition hover:border-blue">
               Recruiter view
             </Link>

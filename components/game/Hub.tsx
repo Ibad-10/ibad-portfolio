@@ -15,6 +15,7 @@ const TILES: Tile[] = [
   { id: "training", label: "Training Ground", blurb: "Skills and attributes", href: "/training" },
   { id: "squad", label: "Squad", blurb: "About me", href: "/squad" },
   { id: "media", label: "Media", blurb: "Photography", href: "/media" },
+  { id: "play", label: "Penalty Shootout", blurb: "Beat the keeper: 5 kicks", href: "/play" },
   { id: "contact", label: "Contact", blurb: "Get in touch", href: "/contact" },
 ];
 
@@ -68,9 +69,13 @@ export function Hub() {
             <div><dt className="eyebrow">Standing</dt><dd>{profile.standing}</dd></div>
             <div><dt className="eyebrow">Last spell</dt><dd>{bmw.club}, {bmw.note}</dd></div>
           </dl>
-          <a href={profile.cv} className="mt-6 inline-block rounded-full border border-line/20 px-5 py-2 text-sm font-semibold hover:border-blue">
-            Download CV
-          </a>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {profile.cvs.map((c) => (
+              <a key={c.href} href={c.href} className="inline-block rounded-full border border-line/20 px-4 py-2 text-sm font-semibold hover:border-blue">
+                {c.label}
+              </a>
+            ))}
+          </div>
         </section>
 
         <section aria-label="Menu">
