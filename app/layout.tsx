@@ -1,56 +1,56 @@
 import type { Metadata } from "next";
-import { Unbounded, IBM_Plex_Mono, Syne } from "next/font/google";
+import { Barlow_Condensed, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { NavBar } from "@/components/ui/NavBar";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
-import { CustomCursor } from "@/components/ui/CustomCursor";
+import { ThemeProvider, THEME_SCRIPT } from "@/components/theme/ThemeProvider";
+import { ModeProvider } from "@/components/mode/ModeProvider";
+import { AppShell } from "@/components/AppShell";
 import { EasterEgg } from "@/components/ui/EasterEgg";
+import { getServerMode, hasChosenMode } from "@/lib/mode-server";
 
-const unbounded = Unbounded({
+const display = Barlow_Condensed({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["200", "400", "700", "900"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
-
-const ibmPlexMono = IBM_Plex_Mono({
+const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const mono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-  weight: ["300", "400", "700"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
-const syne = Syne({
-  subsets: ["latin"],
-  variable: "--font-syne",
-  weight: ["400", "500", "700", "800"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Ibad Ullah Zuberi — Portfolio",
+  title: "Ibad Ullah Zuberi — Computer Systems Engineer",
   description:
-    "BEng Computer Systems Engineering @ Brunel. BMW Logistics Intern. AI, Blockchain, Robotics builder. 3× Hackathon Winner.",
+    "BEng Computer Systems Engineering at Brunel (predicted First). Completed a 15-month BMW Group placement. Builder of Pegboard and multiple hackathon winners.",
   openGraph: {
     title: "Ibad Ullah Zuberi",
-    description: "CS Engineer · BMW Intern · AI + Robotics Builder",
+    description: "Computer Systems Engineer · BMW placement · Hackathon winner",
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const initialMode = getServerMode();
+  const needsChoice = !hasChosenMode();
   return (
-    <html lang="en" className={`${unbounded.variable} ${ibmPlexMono.variable} ${syne.variable}`}>
-      <body className="bg-[#050505] text-white antialiased">
-        <CustomCursor />
-        <ScrollProgress />
-        <NavBar />
-        <EasterEgg />
-        {children}
+    <html
+      lang="en"
+      data-theme="dark"
+      suppressHydrationWarning
+      className={`${display.variable} ${sans.variable} ${mono.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
+      <body className="antialiased">
+        <ThemeProvider>
+          <ModeProvider initialMode={initialMode}>
+            <EasterEgg />
+            <AppShell needsChoice={needsChoice}>{children}</AppShell>
+          </ModeProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
