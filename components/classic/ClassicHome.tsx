@@ -4,8 +4,8 @@ import { ExperienceTimeline } from "./ExperienceTimeline";
 import { ProjectGrid } from "./ProjectGrid";
 import { SkillsBlock } from "./SkillsBlock";
 import { PhotoGrid } from "./PhotoGrid";
-import { ContactForm } from "./ContactForm";
-import { hackathons, profile } from "@/lib/data";
+import { AboutBlock, ContactBlock, HackathonList } from "./blocks";
+import { profile } from "@/lib/data";
 
 const HERO_STATS = [
   { value: "15", label: "months at BMW" },
@@ -46,6 +46,10 @@ export function ClassicHome() {
         </div>
       </section>
 
+      <Section id="about" eyebrow="Who I am" title="About">
+        <AboutBlock />
+      </Section>
+
       <Section id="experience" eyebrow="Where I have worked" title="Experience">
         <ExperienceTimeline />
       </Section>
@@ -64,19 +68,7 @@ export function ClassicHome() {
       </Section>
 
       <Section id="hackathons" eyebrow="Competitions" title="Hackathons">
-        <ul className="divide-y divide-line/10 rounded-2xl border border-line/10 bg-panel">
-          {hackathons.map((h) => (
-            <li key={h.event} className="flex flex-wrap items-baseline justify-between gap-2 px-6 py-4">
-              <div>
-                <p className="font-semibold">{h.event}</p>
-                <p className="text-sm text-muted">{h.project} · {h.year}</p>
-              </div>
-              <p className={h.podium ? "font-display text-xl font-bold uppercase text-gold" : "font-display text-xl font-bold uppercase text-muted"}>
-                {h.result}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <HackathonList />
       </Section>
 
       <Section id="photography" eyebrow="Away from the keyboard" title="Photography">
@@ -84,14 +76,7 @@ export function ClassicHome() {
       </Section>
 
       <Section id="contact" eyebrow="Get in touch" title="Contact">
-        <div className="grid gap-10 md:grid-cols-2">
-          <div className="space-y-3 text-muted">
-            <p>Open to graduate engineering roles and interesting projects.</p>
-            <p><a className="text-blue underline" href={`mailto:${profile.email}`}>{profile.email}</a></p>
-            <p><a className="text-blue underline" href={profile.linkedin}>LinkedIn</a> · <a className="text-blue underline" href={profile.github}>GitHub</a></p>
-          </div>
-          <ContactForm />
-        </div>
+        <ContactBlock />
       </Section>
     </>
   );

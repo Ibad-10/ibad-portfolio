@@ -7,3 +7,11 @@ export const hackathons: Hackathon[] = [
   { event: "Royal Hackaway v8 (Verdn track)", result: "3rd place", project: "Foodo-Baggins", year: "2024", podium: true },
   { event: "EasyA x Polkadot Hackathon London", result: "Finalist", project: "Go Fish", year: "2025", podium: false },
 ];
+
+export type TrophyTier = "gold" | "silver" | "bronze";
+
+export function trophyTier(result: string): TrophyTier {
+  if (result.startsWith("1st")) return "gold";
+  if (result.startsWith("3rd")) return "bronze";
+  return "silver";
+}

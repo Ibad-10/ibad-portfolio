@@ -26,3 +26,11 @@ export const education = {
     "Topper (1st of 30), Course Representative, Member of IET and DSS Brunel",
   ],
 } as const;
+
+export const about = {
+  paragraphs: [
+    "I am a Computer Systems Engineering student at Brunel University London, predicted a First and ranked 1st of 30 in my cohort. I just finished a 15-month placement with BMW Group at Plant Hams Hall, where I built a 27-KPI logistics dashboard, commissioned a semi-automated forklift system and cleaned up master data across two systems.",
+    "Outside placement I build things quickly and ship them: Pegboard, a family chore and pocket-money ledger that is live, and several hackathon projects in AI, blockchain and embedded systems, including three first places.",
+  ],
+  interests: ["Football (FC Barcelona fan)", "FIFA and EA FC", "Photography"],
+} as const;
