@@ -8,6 +8,10 @@ export const profile = {
   github: "https://github.com/Ibad-10",
   site: "https://ibad-portfolio-three.vercel.app",
   cv: "/Ibad_CV.pdf",
+  cvs: [
+    { label: "Software CV", href: "/Zuberi_CV_Software.pdf" },
+    { label: "Electronics CV", href: "/Zuberi_CV_Electronics.pdf" },
+  ],
   degree: "BEng (Hons) Computer Systems Engineering, with Industrial Placement",
   university: "Brunel University London",
   standing: "Predicted First Class, ranked 1st of 30",

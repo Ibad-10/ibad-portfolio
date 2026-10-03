@@ -287,3 +287,8 @@ Deviations from the plan/spec:
 ### Phase 2 status (2026-10-03)
 Built: `/trophies` (3D trophy shelf, lazy, desktop only, with a full text list below), `/training`, `/squad` (CSS-3D tilting player card), `/media`, `/contact`, a new About section in Classic Mode, all hub tiles now active, and the new CV PDF installed at `public/Ibad_CV.pdf`. Lint, typecheck, 36 tests, build and axe (0 issues across 10 routes, both modes, both themes) pass.
 Still open: Phase 3 (penalty shootout, leaderboard, sound), a software-flavoured CV alongside the electronics one, Lighthouse and real-device testing.
+
+
+### Phase 3 status (2026-10-03)
+Built: `/play` penalty shootout (3D goal, keeper, ball, aim reticle, power meter, 5 kicks, local best score, keyboard/mouse/touch controls) with unit-tested shot logic (`lib/penalty.ts`) and synthesised WebAudio sound effects (`lib/sound.ts`, off by default, no audio files). Both CVs are now downloadable (Software and Electronics). Lint, typecheck, 47 tests, build and axe (0 issues across 11 routes, both modes, both themes) pass; a full 5-kick game was played in headless Chromium without console errors.
+Deliberately not built: an online leaderboard. It needs a database and keys; the best score is stored in the visitor's browser only. Add Supabase later if wanted.

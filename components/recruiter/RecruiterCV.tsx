@@ -13,7 +13,11 @@ export function RecruiterCV() {
             <a className="text-[#1e5fd8] underline" href={`mailto:${profile.email}`}>{profile.email}</a> · {profile.phone} · {profile.location}
           </p>
           <p className="no-print mt-4 flex flex-wrap gap-3 text-sm">
-            <a href={profile.cv} className="rounded-full bg-[#1e5fd8] px-5 py-2 font-semibold text-white">Download CV (PDF)</a>
+            {profile.cvs.map((c, i) => (
+              <a key={c.href} href={c.href} className={i === 0 ? "rounded-full bg-[#1e5fd8] px-5 py-2 font-semibold text-white" : "rounded-full border border-[#0b1220]/25 px-5 py-2 font-semibold"}>
+                {c.label} (PDF)
+              </a>
+            ))}
             <a href={profile.linkedin} className="rounded-full border border-[#0b1220]/25 px-5 py-2 font-semibold">LinkedIn</a>
             <a href={profile.github} className="rounded-full border border-[#0b1220]/25 px-5 py-2 font-semibold">GitHub</a>
             <Link href="/" className="rounded-full border border-[#0b1220]/25 px-5 py-2 font-semibold">Back to site</Link>
