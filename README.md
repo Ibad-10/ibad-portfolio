@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ibad Ullah Zuberi — Portfolio
 
-## Getting Started
+Next.js 14 (App Router) portfolio with two presentations of the same content:
 
-First, run the development server:
+- **Game Mode:** a football-game "Career Mode" hub with a lazy-loaded 3D tunnel intro and stadium backdrop (three.js / react-three-fiber). Dark only.
+- **Classic Mode:** a plain, fast, animated portfolio. Light and dark themes.
+
+Visitors choose on first visit and can switch any time (top-bar toggle, or press `M`). Devices without WebGL, or that prefer reduced motion / data saving, fall back to Classic automatically. `/recruiter` is a printable one-page CV.
+
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build
+npm run lint
+npm test         # unit tests for content data, mode logic and colour contrast
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Path | What |
+|---|---|
+| `lib/data/*.ts` | All portfolio content (profile, experience, projects, skills, hackathons, ticker news). Edit here; both modes and the Recruiter view update. |
+| `lib/mode.ts` | Mode and fallback logic (unit-tested). |
+| `app/globals.css` | Design tokens (dark and light). Contrast is enforced by `lib/contrast.test.ts`. |
+| `components/classic/` | Classic Mode UI. |
+| `components/game/` | Game Mode UI; `components/game/three/` is the lazy 3D code. |
+| `app/api/contact/route.ts` | Contact form (Resend). Needs `RESEND_API_KEY`. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Notes
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Pegboard's GitHub link is intentionally omitted while that repo is private (`PEGBOARD_REPO_PUBLIC` in `lib/data/projects.ts`).
+- Design spec and plan: `docs/superpowers/specs/2026-10-03-career-mode-redesign-design.md` and `docs/superpowers/plans/2026-10-03-career-mode-phase-1.md`.

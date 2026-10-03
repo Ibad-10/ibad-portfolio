@@ -26,6 +26,9 @@ export function Lightbox({ src, alt, caption, onClose }: LightboxProps) {
   return (
     <AnimatePresence>
       <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-label={alt}
         className="fixed inset-0 z-[8000] flex items-center justify-center bg-black/92 p-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -55,7 +58,8 @@ export function Lightbox({ src, alt, caption, onClose }: LightboxProps) {
           )}
           <button
             onClick={onClose}
-            className="absolute -top-3 -right-3 font-mono text-[10px] text-white/40 hover:text-white tracking-widest uppercase bg-[#050505] px-2 py-1 border border-white/10"
+            aria-label="Close image"
+            className="absolute -top-3 -right-3 font-mono text-[11px] text-white/80 hover:text-white tracking-widest uppercase bg-[#050505] px-2 py-1 border border-white/20"
           >
             [ESC]
           </button>
