@@ -86,7 +86,7 @@ export function Contact() {
       </div>
       <div className="socials">
         {SOCIALS.map((s) => (
-          <a key={s.label} href={s.href} target={s.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer">
+          <a key={s.label} href={s.href} target={s.href.startsWith("http") || s.href.startsWith("/cv/") ? "_blank" : undefined} rel="noopener noreferrer">
             <span>{s.label}</span>
             <span aria-hidden="true">↗</span>
           </a>
