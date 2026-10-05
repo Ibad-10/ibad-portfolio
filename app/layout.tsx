@@ -1,57 +1,35 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, Inter, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider, THEME_SCRIPT } from "@/components/theme/ThemeProvider";
-import { ModeProvider } from "@/components/mode/ModeProvider";
-import { AppShell } from "@/components/AppShell";
-import { EasterEgg } from "@/components/ui/EasterEgg";
-import { getServerMode, hasChosenMode } from "@/lib/mode-server";
+import "./v2.css";
 
-const display = Barlow_Condensed({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["500", "600", "700"],
-  display: "swap",
-});
-const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  weight: ["400", "500"],
-  display: "swap",
-});
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", weight: ["500", "600", "700"], display: "swap" });
+const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", style: ["italic"], axes: ["opsz"], display: "swap" });
+const geist = localFont({ src: "./fonts/GeistVF.woff", variable: "--font-geist", weight: "100 900", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Ibad Ullah Zuberi — Computer Systems Engineer",
+  title: "Ibad Ullah Zuberi — Software and Electronics Engineer",
   description:
-    "BEng Computer Systems Engineering at Brunel (predicted First). Completed a 15-month BMW Group placement. Builder of Pegboard and multiple hackathon winners.",
+    "BEng Computer Systems Engineering at Brunel (First Class, 1st of 30). Completed a 15-month BMW Group placement. Builder of Pegboard and three-time hackathon winner.",
   openGraph: {
     title: "Ibad Ullah Zuberi",
-    description: "Computer Systems Engineer · BMW placement · Hackathon winner",
+    description: "Software and electronics engineer · BMW Group placement · Hackathon winner",
+    type: "website",
   },
 };
 
+// Adds the "motion" class before first paint so scroll reveals can start hidden without a flash.
+// Visitors without JavaScript, or who prefer reduced motion, always see the content.
+const MOTION_SCRIPT = `try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')}catch(e){}`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const initialMode = getServerMode();
-  const needsChoice = !hasChosenMode();
   return (
-    <html
-      lang="en"
-      data-theme="dark"
-      suppressHydrationWarning
-      className={`${display.variable} ${sans.variable} ${mono.variable}`}
-    >
+    <html lang="en" className={`${manrope.variable} ${fraunces.variable} ${geist.variable}`}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: MOTION_SCRIPT }} />
       </head>
-      <body className="antialiased">
-        <ThemeProvider>
-          <ModeProvider initialMode={initialMode}>
-            <EasterEgg />
-            <AppShell needsChoice={needsChoice}>{children}</AppShell>
-          </ModeProvider>
-        </ThemeProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

@@ -1,11 +1,11 @@
 # Ibad Ullah Zuberi — Portfolio
 
-Next.js 14 (App Router) portfolio with two presentations of the same content:
+Next.js 14 (App Router) single-page portfolio. Black theme, white ink, one electric-blue accent.
 
-- **Game Mode:** a football-game "Career Mode" hub with a lazy-loaded 3D tunnel intro and stadium backdrop (three.js / react-three-fiber). Dark only.
-- **Classic Mode:** a plain, fast, animated portfolio. Light and dark themes.
-
-Visitors choose on first visit and can switch any time (top-bar toggle, or press `M`). Devices without WebGL, or that prefer reduced motion / data saving, fall back to Classic automatically. `/recruiter` is a printable one-page CV. `/play` is a 3D penalty shootout (best score kept in the browser; sound is synthesised in code and off by default).
+- **Software / Electronics switch** in the hero re-orders the projects, BMW bullets, skills and CV download from the two CVs.
+- **Interactive pieces:** a falling-sand hero (canvas), a shader light-line background behind the work grid (WebGL), a raw-WebGL "pole gallery" for photography, Lenis smooth scroll, magnetic buttons, letter-roll hovers and scroll reveals. All of it switches off under `prefers-reduced-motion`.
+- **Contact form** posts to `app/api/contact/route.ts` (Resend, needs `RESEND_API_KEY`).
+- **`/play`** is a 3D penalty-shootout mini-game (best score kept in the browser; sound is synthesised in code and off by default).
 
 ## Run
 
@@ -14,21 +14,22 @@ npm install
 npm run dev      # http://localhost:3000
 npm run build
 npm run lint
-npm test         # unit tests for content data, mode logic and colour contrast
+npm test         # content + game-logic unit tests
 ```
 
 ## Where things live
 
 | Path | What |
 |---|---|
-| `lib/data/*.ts` | All portfolio content (profile, experience, projects, skills, hackathons, ticker news). Edit here; both modes and the Recruiter view update. |
-| `lib/mode.ts` | Mode and fallback logic (unit-tested). |
-| `app/globals.css` | Design tokens (dark and light). Contrast is enforced by `lib/contrast.test.ts`. |
-| `components/classic/` | Classic Mode UI. |
-| `components/game/` | Game Mode UI; `components/game/three/` is the lazy 3D code. |
-| `app/api/contact/route.ts` | Contact form (Resend). Needs `RESEND_API_KEY`. |
+| `lib/site.ts` | All copy and data: projects, modes (Software / Electronics), hackathons, skills, socials. Edit here. |
+| `components/v2/` | The page: `Portfolio.tsx` is the client root; one file per section. |
+| `components/v2/fx/` | Framework-free effects: `sand.ts`, `lightLines.ts`, `poleGallery.ts`. |
+| `app/v2.css` | Styles for the page (design tokens are in the README of the design handoff). |
+| `public/cv/` | The two CV PDFs linked from the hero and footer. `public/Ibad_CV.pdf` is kept so old links still work. |
+| `public/lightroom/`, `public/photos/` | Gallery and portrait photos. |
 
 ## Notes
 
-- Pegboard's GitHub link is intentionally omitted while that repo is private (`PEGBOARD_REPO_PUBLIC` in `lib/data/projects.ts`).
-- Design spec and plan: `docs/superpowers/specs/2026-10-03-career-mode-redesign-design.md` and `docs/superpowers/plans/2026-10-03-career-mode-phase-1.md`.
+- Project screenshots load from GitHub `user-attachments` URLs and tech logos from `cdn.simpleicons.org`; if one fails to load it is hidden and a monogram shows instead.
+- Pegboard's GitHub link is intentionally omitted while that repo is private.
+- Earlier "Career Mode" redesign notes are kept in `docs/superpowers/` for history; that UI was replaced by this design.
