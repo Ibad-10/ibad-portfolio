@@ -1,4 +1,7 @@
 # Portfolio Redesign v3 — "Career Mode" — Design Spec
+
+> **Superseded 2026-10-05:** the site now uses the Portfolio v2 design handoff (black theme, sand hero, pole gallery). The Game/Classic modes described here were removed; only the `/play` penalty shootout was kept.
+
 **Date:** 2026-10-03
 **Status:** Draft for review (no code changes yet)
 **Supersedes:** `2026-05-01-portfolio-redesign-design.md` (Full Bleed Immersive)

@@ -1,5 +1,8 @@
 # Career Mode — Phase 1 Implementation Plan
 
+> **Superseded 2026-10-05:** the site now uses the Portfolio v2 design handoff (black theme, sand hero, pole gallery). The Game/Classic modes described here were removed; only the `/play` penalty shootout was kept.
+
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Status:** APPROVED 2026-10-03 — owner delegated review and approval to the agent ("review the plan yourself and then approve it"). Self-review log at the bottom of this file.
