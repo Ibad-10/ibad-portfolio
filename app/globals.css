@@ -2,13 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tokens used by the /play page (RGB channels so Tailwind can apply alpha). The main site styles live in v2.css. */
 :root {
-  --red: #FF4D2D;
-  --bg: #050505;
-  --bg-2: #080808;
-  --border: rgba(255, 255, 255, 0.07);
-  --muted: #333333;
-  --subtle: #555555;
+  --bg: 0 0 0;
+  --panel: 15 22 38;
+  --text: 242 245 250;
+  --muted: 138 148 168;
+  --blue: 47 123 255;
+  --blue-strong: 37 99 235;
+  --garnet: 200 23 79;
+  --gold: 230 184 76;
+  --line: 255 255 255;
 }
 
 * {
@@ -17,62 +21,93 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
-  background: var(--bg);
-  color: #ffffff;
+  background: rgb(var(--bg));
+  color: rgb(var(--text));
+  font-family: var(--font-geist), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--red); }
-
-/* Noise texture overlay class */
-.noise-overlay {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
+:focus-visible {
+  outline: 2px solid rgb(var(--blue));
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-/* Ticker animation */
-@keyframes ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+::selection {
+  background: rgb(var(--blue) / 0.35);
 }
 
-/* Cursor hidden on desktop when custom cursor active */
-@media (pointer: fine) {
-  body { cursor: none; }
-  a, button { cursor: none; }
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: rgb(var(--panel));
+  color: rgb(var(--text));
+  border: 1px solid rgb(var(--blue));
+  border-radius: 6px;
 }
-
-/* Section spacing */
-section {
-  position: relative;
-}
-
-/* Ghost outline text utility */
-.text-outline-red {
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 77, 45, 0.55);
-}
-
-/* Red accent line utility */
-.red-rule {
-  width: 40px;
-  height: 1px;
-  background: var(--red);
+.skip-link:focus {
+  top: 1rem;
 }
 
 /* Section label utility */
-.section-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.3em;
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--red);
+  color: rgb(var(--muted));
+}
+
+/* Ticker */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ticker-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: ticker 40s linear infinite;
+}
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track {
+  animation-play-state: paused;
+}
+
+/* Scroll reveal (only hidden when JS is running) */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.js .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .ticker-track { animation: none; }
+}
+
+@media print {
+  html, body { background: #fff !important; color: #000 !important; }
+  .no-print { display: none !important; }
+  .print-entry { break-inside: avoid; }
+  @page { size: A4; margin: 14mm; }
 }

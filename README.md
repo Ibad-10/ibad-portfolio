@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ibad Ullah Zuberi — Portfolio
 
-## Getting Started
+Next.js 14 (App Router) single-page portfolio. Black theme, white ink, one electric-blue accent.
 
-First, run the development server:
+- **Software / Electronics switch** in the hero re-orders the projects, BMW bullets, skills and CV download from the two CVs.
+- **Interactive pieces:** a falling-sand hero (canvas), a shader light-line background behind the work grid (WebGL), a raw-WebGL "pole gallery" for photography, Lenis smooth scroll, magnetic buttons, letter-roll hovers and scroll reveals. All of it switches off under `prefers-reduced-motion`.
+- **Contact form** posts to `app/api/contact/route.ts` (Resend, needs `RESEND_API_KEY`).
+- **`/play`** is a 3D penalty-shootout mini-game (best score kept in the browser; sound is synthesised in code and off by default).
+
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build
+npm run lint
+npm test         # content + game-logic unit tests
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Path | What |
+|---|---|
+| `lib/site.ts` | All copy and data: projects, modes (Software / Electronics), hackathons, skills, socials. Edit here. |
+| `components/v2/` | The page: `Portfolio.tsx` is the client root; one file per section. |
+| `components/v2/fx/` | Framework-free effects: `sand.ts`, `lightLines.ts`, `poleGallery.ts`. |
+| `app/v2.css` | Styles for the page (design tokens are in the README of the design handoff). |
+| `public/cv/` | The two CV PDFs linked from the hero and footer. `public/Ibad_CV.pdf` is kept so old links still work. |
+| `public/lightroom/`, `public/photos/` | Gallery and portrait photos. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Notes
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Project screenshots load from GitHub `user-attachments` URLs and tech logos from `cdn.simpleicons.org`; if one fails to load it is hidden and a monogram shows instead.
+- Pegboard's GitHub link is intentionally omitted while that repo is private.
+- Earlier "Career Mode" redesign notes are kept in `docs/superpowers/` for history; that UI was replaced by this design.
