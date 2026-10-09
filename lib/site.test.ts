@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { HACKS, MODES, PHOTOS, PROJECTS, SOCIALS, iconUrl, mono } from "./site";
@@ -56,5 +56,22 @@ describe("site content", () => {
     expect(iconUrl("Soldering")).toBe("");
     expect(mono("Raspberry Pi Pico")).toBe("RPP");
     expect(mono("C++")).toBe("C");
+  });
+});
+
+describe("privacy", () => {
+  it("never ships a phone number in site source or CV text", () => {
+    const root = path.join(__dirname, "..");
+    const hits: string[] = [];
+    const walk = (dir: string) => {
+      for (const name of readdirSync(dir)) {
+        if (["node_modules", ".next", ".git", "docs", "public", "package-lock.json"].includes(name)) continue;
+        const full = path.join(dir, name);
+        if (statSync(full).isDirectory()) walk(full);
+        else if (/\.(tsx?|css|md|json)$/.test(name) && !name.endsWith("site.test.ts") && /7742|420404/.test(readFileSync(full, "utf8"))) hits.push(full);
+      }
+    };
+    walk(root);
+    expect(hits).toEqual([]);
   });
 });
