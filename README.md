@@ -1,4 +1,4 @@
-# Ibad Ullah Zuberi — Portfolio
+#Portfolio
 
 Next.js 14 (App Router) single-page portfolio. Black theme, white ink, one electric-blue accent.
 
