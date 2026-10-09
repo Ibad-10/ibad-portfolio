@@ -95,7 +95,7 @@ export function Contact() {
       <div className="foot">
         <span>© 2026 Ibad Ullah Zuberi · London, UK</span>
         <span>
-          [phone removed] · <Link href="/play">Play penalties</Link>
+          <Link href="/play">Play penalties</Link>
         </span>
       </div>
     </section>
