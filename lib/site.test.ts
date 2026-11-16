@@ -84,7 +84,10 @@ describe("site content", () => {
     expect(PROJECTS.luffa.gold).toBeUndefined();
     expect(PROJECTS.voice.date).toBe("Jan 2024");
     expect(PROJECTS.passage.badge).toBe("2nd · The PROBLEM day");
-    expect(PROJECTS.sip.imgs).toBeUndefined();
+    expect(PROJECTS.sip.imgs).toEqual(["/projects/sip.jpg"]);
+    expect(PROJECTS.shadowcall.imgs).toEqual(["/projects/shadowcall.jpg"]);
+    expect(PROJECTS.designmd.imgs).toEqual(["/projects/design-md.jpg"]);
+    expect(PROJECTS.designmd.fit).toBe("contain");
     expect(PROJECTS.canary.imgs?.[0]).toBe("/projects/canary.jpg");
   });
 
