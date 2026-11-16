@@ -148,7 +148,7 @@ export const MODES: Record<Mode, ModeContent> = {
     word: "software.",
     label: "Software",
     line: "Full-stack and AI engineer. Five hackathon wins, most recently 1st place solo at the Grok Bot Real Estate Hackathon. BMW Group placement, EY data analyst. Next.js, Python, agents and a fair amount of blockchain.",
-    projects: ["canary", "chainsentinel", "fyp", "htw", "hookline", "passage", "sip", "sf", "luffa", "hyper", "foodo", "gofish", "peg", "shadowcall", "rainscene", "designmd", "attend", "bank", "weather"],
+    projects: ["fyp", "canary", "sip", "passage", "chainsentinel", "hookline", "shadowcall", "rainscene", "designmd", "peg", "sf", "luffa", "htw", "gofish", "foodo", "bank", "hyper", "weather", "attend"],
     bmw: [
       "Doubled KPI coverage from 13 to 27 with an Oracle APEX logistics dashboard, presented to 60+ colleagues and senior management.",
       "Raised master-data quality from 52% to 61% in one month with an Excel validation workbook.",
@@ -170,7 +170,7 @@ export const MODES: Record<Mode, ModeContent> = {
     word: "hardware.",
     label: "Electronics",
     line: "Controls and embedded engineer. PLC ladder logic during a BMW Group placement, register-level PIC firmware, Verilog FSMs and robots built from scratch.",
-    projects: ["fyp", "sip", "robot", "pic", "asm", "verilog", "weather", "rc", "voice", "htw", "sf", "luffa"],
+    projects: ["fyp", "sip", "sf", "luffa", "htw", "pic", "asm", "verilog", "weather", "robot", "voice", "rc"],
     bmw: [
       "Programmed PLC ladder logic (TIA Portal V17, WAGO e!COCKPIT) for automated material-flow systems, including live status lamps for transport robots.",
       "Projected a 15% throughput gain on a semi-automated forklift system by diagnosing serial-communication faults.",

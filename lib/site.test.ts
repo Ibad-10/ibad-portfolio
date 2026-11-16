@@ -53,6 +53,44 @@ describe("site content", () => {
     for (const p of [...PHOTOS, "/photos/hero.jpeg", "/photos/hackathon.jpeg"]) expect(existsSync(pub(p)), p).toBe(true);
   });
 
+  it("orders each works grid newest first, placement breaking date ties", () => {
+    expect(MODES.software.projects).toEqual([
+      "fyp",
+      "canary",
+      "sip",
+      "passage",
+      "chainsentinel",
+      "hookline",
+      "shadowcall",
+      "rainscene",
+      "designmd",
+      "peg",
+      "sf",
+      "luffa",
+      "htw",
+      "gofish",
+      "foodo",
+      "bank",
+      "hyper",
+      "weather",
+      "attend",
+    ]);
+    expect(MODES.electronics.projects).toEqual([
+      "fyp",
+      "sip",
+      "sf",
+      "luffa",
+      "htw",
+      "pic",
+      "asm",
+      "verilog",
+      "weather",
+      "robot",
+      "voice",
+      "rc",
+    ]);
+  });
+
   it("lists the hackathon results, with five headline wins", () => {
     expect(HACKS.map((h) => [h.place, h.project, h.date, h.event])).toEqual([
       ["1st", "Canary", "Nov 2026", "Grok Bot Real Estate Hackathon · V7"],
