@@ -56,8 +56,7 @@ describe("site content", () => {
   it("orders each works grid newest first, placement breaking date ties", () => {
     expect(PROJECTS).not.toHaveProperty("fyp");
     expect(Object.values(PROJECTS).some((p) => p.name === "AI Route Optimisation")).toBe(false);
-    expect(TICKER).toContain("Final-year project · BMW Group");
-    expect(readFileSync(path.join(__dirname, "../components/v2/About.tsx"), "utf8")).toContain("My final-year project is with BMW");
+    expect(TICKER.some((item) => /final-year project/i.test(item))).toBe(false);
     expect(MODES.software.projects).toEqual([
       "canary",
       "sip",

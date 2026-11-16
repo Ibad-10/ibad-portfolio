@@ -227,7 +227,7 @@ export const STATS = [
   { n: 20, suffix: "+", label: "projects built" },
 ];
 
-export const TICKER = ["5 hackathon wins", "1st · Grok Bot Real Estate Hackathon", "2nd · The PROBLEM day", "Best Use Case · Mubit Night Shift", "1st · Encode AI London", "1st · Radix bounty · Brunel Hack 25", "3rd · Luffa bounty · Brunel Hack 25", "Final-year project · BMW Group", "EY · Data Analyst", "First Class · 1st of 30", "Software", "Electronics", "Controls"];
+export const TICKER = ["5 hackathon wins", "1st · Grok Bot Real Estate Hackathon", "2nd · The PROBLEM day", "Best Use Case · Mubit Night Shift", "1st · Encode AI London", "1st · Radix bounty · Brunel Hack 25", "3rd · Luffa bounty · Brunel Hack 25", "EY · Data Analyst", "First Class · 1st of 30", "Software", "Electronics", "Controls"];
 
 export const SOCIALS = [
   { label: "GitHub", href: "https://github.com/Ibad-10" },
