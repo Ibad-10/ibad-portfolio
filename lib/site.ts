@@ -112,7 +112,6 @@ export const PROJECTS: Record<string, Project> = {
     desc: "A Claude Code skill that opens any website in a real browser, measures its design and writes a DESIGN.md design-system file (tokens, typography, motion, tech stack) for AI coding agents to follow.",
     tags: ["Claude Code", "Playwright"],
   },
-  fyp: { name: "AI Route Optimisation", badge: "Final-year project", cat: "AI", date: "2026 – 27", desc: "An AI model that sequences plant delivery (taxi) routes at BMW Hams Hall, aiming to cut loading time and raise pallets per trip. Piloted against the current route.", tags: ["AI", "Logistics", "BMW Group"] },
   peg: { name: "Pegboard", badge: "Live", cat: "Web", date: "2026", live: "https://getpegboard.co.uk", desc: "A family chore and pocket-money app. Parents post priced jobs, children claim them with photo evidence, parents sign off from one queue. Installable PWA with a PIN kiosk mode.", tags: ["Next.js", "PWA"] },
   htw: { name: "Hack the Wallet", badge: "1st · Encode AI London", gold: true, cat: "Web3", date: "Apr 2025", gh: "https://github.com/Sahid-m/HackTheWallet", imgs: [UA("c56f9da4-2eb7-48fc-9719-b99046a0fc97"), UA("4842170b-d4eb-4991-bf65-3657385014ae"), UA("4c214fb2-6098-481c-850e-ce7b6468da46"), UA("74a99569-f75d-4d6b-b51e-6d566f7a5d22"), UA("e00ce850-6d48-453e-8474-2008017f8fcd")], desc: "A Starknet game where players persuade an AI to return locked crypto, with Gemini 1.5 Flash trust scoring, voice input/output and on-chain rewards on Sepolia.", tags: ["Next.js", "Starknet", "Gemini"] },
   gofish: { name: "Go Fish", badge: "Finalist · EasyA x Polkadot", cat: "Web3", date: "Apr 2025", gh: "https://github.com/Ibad-10/GoFish", desc: "A payment platform for fishing import/export. Exporters receive 97.5% of trade value instantly via smart contracts and stablecoin integration.", tags: ["Next.js", "Solidity", "Polkadot"] },
@@ -148,7 +147,7 @@ export const MODES: Record<Mode, ModeContent> = {
     word: "software.",
     label: "Software",
     line: "Full-stack and AI engineer. Five hackathon wins, most recently 1st place solo at the Grok Bot Real Estate Hackathon. BMW Group placement, EY data analyst. Next.js, Python, agents and a fair amount of blockchain.",
-    projects: ["fyp", "canary", "sip", "passage", "chainsentinel", "hookline", "shadowcall", "rainscene", "designmd", "peg", "sf", "luffa", "htw", "gofish", "foodo", "bank", "hyper", "weather", "attend"],
+    projects: ["canary", "sip", "passage", "chainsentinel", "hookline", "shadowcall", "rainscene", "designmd", "peg", "sf", "luffa", "htw", "gofish", "foodo", "bank", "hyper", "weather", "attend"],
     bmw: [
       "Doubled KPI coverage from 13 to 27 with an Oracle APEX logistics dashboard, presented to 60+ colleagues and senior management.",
       "Raised master-data quality from 52% to 61% in one month with an Excel validation workbook.",
@@ -170,7 +169,7 @@ export const MODES: Record<Mode, ModeContent> = {
     word: "hardware.",
     label: "Electronics",
     line: "Controls and embedded engineer. PLC ladder logic during a BMW Group placement, register-level PIC firmware, Verilog FSMs and robots built from scratch.",
-    projects: ["fyp", "sip", "sf", "luffa", "htw", "pic", "asm", "verilog", "weather", "robot", "voice", "rc"],
+    projects: ["sip", "sf", "luffa", "htw", "pic", "asm", "verilog", "weather", "robot", "voice", "rc"],
     bmw: [
       "Programmed PLC ladder logic (TIA Portal V17, WAGO e!COCKPIT) for automated material-flow systems, including live status lamps for transport robots.",
       "Projected a 15% throughput gain on a semi-automated forklift system by diagnosing serial-communication faults.",
@@ -228,7 +227,7 @@ export const STATS = [
   { n: 20, suffix: "+", label: "projects built" },
 ];
 
-export const TICKER = ["5 hackathon wins", "1st · Grok Bot Real Estate Hackathon", "2nd · The PROBLEM day", "Best Use Case · Mubit Night Shift", "1st · Encode AI London", "1st · Radix bounty · Brunel Hack 25", "3rd · Luffa bounty · Brunel Hack 25", "Final-year project · BMW Group", "EY · Data Analyst", "First Class · 1st of 30", "Software", "Electronics", "Controls"];
+export const TICKER = ["5 hackathon wins", "1st · Grok Bot Real Estate Hackathon", "2nd · The PROBLEM day", "Best Use Case · Mubit Night Shift", "1st · Encode AI London", "1st · Radix bounty · Brunel Hack 25", "3rd · Luffa bounty · Brunel Hack 25", "EY · Data Analyst", "First Class · 1st of 30", "Software", "Electronics", "Controls"];
 
 export const SOCIALS = [
   { label: "GitHub", href: "https://github.com/Ibad-10" },

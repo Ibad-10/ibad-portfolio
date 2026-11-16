@@ -54,8 +54,10 @@ describe("site content", () => {
   });
 
   it("orders each works grid newest first, placement breaking date ties", () => {
+    expect(PROJECTS).not.toHaveProperty("fyp");
+    expect(Object.values(PROJECTS).some((p) => p.name === "AI Route Optimisation")).toBe(false);
+    expect(TICKER.some((item) => /final-year project/i.test(item))).toBe(false);
     expect(MODES.software.projects).toEqual([
-      "fyp",
       "canary",
       "sip",
       "passage",
@@ -76,7 +78,6 @@ describe("site content", () => {
       "attend",
     ]);
     expect(MODES.electronics.projects).toEqual([
-      "fyp",
       "sip",
       "sf",
       "luffa",
