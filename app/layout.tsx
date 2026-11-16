@@ -11,7 +11,7 @@ const geist = localFont({ src: "./fonts/GeistVF.woff", variable: "--font-geist",
 export const metadata: Metadata = {
   title: "Ibad Ullah Zuberi — Software and Electronics Engineer",
   description:
-    "BEng Computer Systems Engineering at Brunel (First Class, 1st of 30). Completed a 15-month BMW Group placement. Builder of Pegboard and three-time hackathon winner.",
+    "BEng Computer Systems Engineering at Brunel (First Class, 1st of 30). Completed a 15-month BMW Group placement. Builder of Pegboard and five-time hackathon winner.",
   openGraph: {
     title: "Ibad Ullah Zuberi",
     description: "Software and electronics engineer · BMW Group placement · Hackathon winner",

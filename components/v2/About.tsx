@@ -14,7 +14,7 @@ export function About({ mode }: { mode: Mode }) {
           <div className="eyebrow rv">01 — About</div>
           <Heading parts={["Builder by nature, ", { i: "hacker" }, " by choice."]} className="h2" />
           <p className="body rv">
-            Final-year Computer Systems Engineering student at Brunel, <b>ranked 1st of 30 with First Class marks in both years</b>. I spent my placement year at BMW Group writing PLC logic and building logistics dashboards, after a summer at EY in data analysis. Outside of that I build at hackathons, and have won three of them.
+            Final-year Computer Systems Engineering student at Brunel, <b>ranked 1st of 30 with First Class marks in both years</b>. I spent my placement year at BMW Group writing PLC logic and building logistics dashboards, after a summer at EY in data analysis. My final-year project is with BMW. Outside of that I build at hackathons, and have won five of them, most recently 1st place solo at the Grok Bot Real Estate Hackathon.
           </p>
           <div className="acc rv">
             {items.map((e, i) => (

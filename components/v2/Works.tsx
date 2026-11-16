@@ -86,7 +86,7 @@ function Card({ p, i }: { p: Project; i: number }) {
         <div className="links">
           {p.live && (
             <a href={p.live} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-blue">
-              Visit getpegboard.co.uk ↗
+              {p.live.includes("getpegboard.co.uk") ? "Visit getpegboard.co.uk ↗" : "Live ↗"}
             </a>
           )}
           {p.gh && (

@@ -8,12 +8,12 @@ export function Hackathons() {
   return (
     <section id="hackathons" className="hacks">
       <div className="eyebrow rv">03 — Hackathons</div>
-      <Heading parts={["Three firsts, one ", { i: "third" }, ", one final."]} className="h2" />
+      <Heading parts={["Three firsts, one ", { i: "second" }, ", one award, two thirds."]} className="h2" />
       <div className="hack-list rv">
         {HACKS.map((h, i) => (
           <div key={h.event} className={`acc-item${open === i ? " open" : ""}`}>
             <button type="button" className="hack-head" aria-expanded={open === i} aria-controls={`hack-${i}`} onClick={() => setOpen(open === i ? -1 : i)}>
-              <span className={`place${h.place === "1st" ? " first" : ""}`}>{h.place}</span>
+              <span className={`place${h.place === "1st" || h.place === "Award" ? " first" : ""}`}>{h.place}</span>
               <span className="ev">{h.event}</span>
               <span className="dt">{h.date}</span>
               <span className="chev" aria-hidden="true">⌄</span>
@@ -25,6 +25,9 @@ export function Hackathons() {
                 </p>
                 <div className="gh">
                   <a href={h.gh} target="_blank" rel="noopener noreferrer">View on GitHub ↗</a>
+                  {h.live && (
+                    <a href={h.live} target="_blank" rel="noopener noreferrer">Live ↗</a>
+                  )}
                 </div>
               </div>
             </div>
