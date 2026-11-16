@@ -2,7 +2,7 @@
 
 Computer Systems Engineering student at **Brunel University London** (BEng, First Class in both years, ranked 1st of 30), based in London.
 
-I build software and hardware: full-stack and AI projects, blockchain hackathon entries, embedded firmware and PLC logic. I have just finished a 15-month industrial placement at **BMW Group** (Plant Hams Hall), where I worked in logistics planning on controls, automation and data.
+I build software and hardware: full-stack and AI projects, blockchain hackathon entries, embedded firmware and PLC logic. I have just finished a 15-month industrial placement at **BMW Group** (Plant Hams Hall), where I worked in logistics planning on controls, automation and data. My final-year project is with BMW: an AI model for dynamic delivery-route optimisation.
 
 **Live portfolio:** https://ibad-portfolio-three.vercel.app
 **LinkedIn:** https://www.linkedin.com/in/ibad-ullah-zuberi/ · **Email:** zuberi.ibad@gmail.com
