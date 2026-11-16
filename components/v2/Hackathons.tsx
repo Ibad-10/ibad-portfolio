@@ -8,7 +8,7 @@ export function Hackathons() {
   return (
     <section id="hackathons" className="hacks">
       <div className="eyebrow rv">03 — Hackathons</div>
-      <Heading parts={["Three firsts, one ", { i: "second" }, ", one award, two thirds."]} className="h2" />
+      <Heading parts={["Five wins. Seven ", { i: "podiums" }, "."]} className="h2" />
       <div className="hack-list rv">
         {HACKS.map((h, i) => (
           <div key={h.event} className={`acc-item${open === i ? " open" : ""}`}>

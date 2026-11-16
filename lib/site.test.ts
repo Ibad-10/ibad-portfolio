@@ -64,7 +64,6 @@ describe("site content", () => {
       "chainsentinel",
       "hookline",
       "shadowcall",
-      "rainscene",
       "designmd",
       "peg",
       "sf",
