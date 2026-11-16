@@ -10,6 +10,8 @@ export type Project = {
   gold?: boolean;
   gh?: string;
   video?: string;
+  /** Local muted loop. External demos stay on `video`. */
+  preview?: string;
   live?: string;
   imgs?: string[];
   fit?: "cover" | "contain";
@@ -122,7 +124,7 @@ export const PROJECTS: Record<string, Project> = {
   voice: { name: "Voice Assistant", badge: "Royal Hackaway v7", cat: "AI", date: "Jan 2024", gh: "https://github.com/Faeq-F/HackawayV7", desc: "92% recognition accuracy across 6 voice commands in a Python voice assistant built at Royal Hackaway v7.", tags: ["Python", "SpeechRecognition", "pyttsx3"] },
   attend: { name: "Attendance Management", badge: "Python · Flask", cat: "Web", date: "2024", desc: "Cut record-keeping errors by 95% and leave processing time by 80%, with OTP authentication and automated leave management.", tags: ["Flask", "MySQL", "SQLAlchemy"] },
   weather: { name: "Weather Monitoring", badge: "Hardware", cat: "Embedded", date: "Oct 2024", desc: "Real-time monitoring on a Raspberry Pi Pico with a BME280 sensor at 95% sensor accuracy, served through REST APIs that support concurrent requests.", tags: ["Pi Pico", "BME280", "Python"] },
-  robot: { name: "Automated Object Retriever", badge: "Robotics", cat: "Embedded", date: "Jan – Mar 2024", desc: "95% item-retrieval accuracy and 70% less manual retrieval time. Led development and testing of the autonomous robot, hardware and software from scratch.", tags: ["Arduino", "Ultrasonic", "Embedded C"] },
+  robot: { name: "Automated Object Retriever", badge: "Robotics", cat: "Embedded", date: "Jan – Mar 2024", imgs: ["/projects/object-retriever.jpg"], preview: "/projects/object-retriever-loop.mp4", desc: "95% item-retrieval accuracy and 70% less manual retrieval time. Led development and testing of the autonomous robot, hardware and software from scratch.", tags: ["Arduino", "Ultrasonic", "Embedded C"] },
   bank: { name: "Banking & Supermarket Suite", badge: "Java", cat: "Web", date: "Oct – Dec 2024", desc: "A Java banking app and a supermarket system whose checkout debits the customer’s bank account. Designed with UML and tested per use case.", tags: ["Java", "Swing", "UML"] },
   pic: { name: "PIC16F18877 Interfacing", badge: "Embedded", cat: "Embedded", date: "Jan – Mar 2025", desc: "8 hardware-tested exercises: a multiplexed 7-segment counter, HD44780 LCD in 4-bit mode, 10-bit ADC light sensing and a five-switch priority controller.", tags: ["XC8 C", "MPLAB X", "E-blocks2"] },
   asm: { name: "PIC Assembly", badge: "Embedded", cat: "Embedded", date: "Oct – Dec 2024", desc: "Cycle-counted delay routines at 20 MHz tuned to 1 Hz, a three-switch LED sequencer, lookup-table 7-segment drivers and LCD subroutines.", tags: ["Assembly", "PIC16F18877"] },

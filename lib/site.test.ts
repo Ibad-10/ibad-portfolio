@@ -128,6 +128,10 @@ describe("site content", () => {
     expect(PROJECTS.designmd.imgs).toEqual(["/projects/design-md.jpg"]);
     expect(PROJECTS.designmd.fit).toBe("contain");
     expect(PROJECTS.canary.imgs?.[0]).toBe("/projects/canary.jpg");
+    expect(PROJECTS.robot.imgs).toEqual(["/projects/object-retriever.jpg"]);
+    expect(PROJECTS.robot.preview).toBe("/projects/object-retriever-loop.mp4");
+    expect(existsSync(pub("/projects/object-retriever.jpg"))).toBe(true);
+    expect(existsSync(pub("/projects/object-retriever-loop.mp4"))).toBe(true);
   });
 
   it("builds icon URLs and monograms", () => {
