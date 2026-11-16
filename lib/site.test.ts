@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { HACKS, MODES, PHOTOS, PROJECTS, SOCIALS, iconUrl, mono } from "./site";
+import { HACKS, MODES, PHOTOS, PROJECTS, SOCIALS, STATS, TICKER, iconUrl, mono } from "./site";
 
 const pub = (href: string) => path.join(__dirname, "../public", href);
 
@@ -23,10 +23,19 @@ describe("site content", () => {
 
   it("uses https links only", () => {
     const links = [
-      ...Object.values(PROJECTS).flatMap((p) => [p.gh, p.video, p.live, ...(p.imgs ?? [])]),
-      ...HACKS.map((h) => h.gh),
+      ...Object.values(PROJECTS).flatMap((p) => [p.gh, p.video, p.live, ...(p.imgs ?? []).filter((src) => !src.startsWith("/"))]),
+      ...HACKS.flatMap((h) => [h.gh, h.live]),
     ].filter(Boolean) as string[];
     for (const l of links) expect(l.startsWith("https://"), l).toBe(true);
+  });
+
+  it("points every local project image at a file in public/projects", () => {
+    const imgs = Object.values(PROJECTS).flatMap((p) => p.imgs ?? []).filter((src) => src.startsWith("/"));
+    expect(imgs.length).toBeGreaterThan(0);
+    for (const src of imgs) {
+      expect(src.startsWith("/projects/"), src).toBe(true);
+      expect(existsSync(pub(src)), src).toBe(true);
+    }
   });
 
   it("does not link to the private Pegboard repo", () => {
@@ -44,11 +53,85 @@ describe("site content", () => {
     for (const p of [...PHOTOS, "/photos/hero.jpeg", "/photos/hackathon.jpeg"]) expect(existsSync(pub(p)), p).toBe(true);
   });
 
-  it("lists five hackathons with one third place and one finalist", () => {
-    expect(HACKS).toHaveLength(5);
+  it("orders each works grid newest first, placement breaking date ties", () => {
+    expect(PROJECTS).not.toHaveProperty("fyp");
+    expect(Object.values(PROJECTS).some((p) => p.name === "AI Route Optimisation")).toBe(false);
+    expect(TICKER.some((item) => /final-year project/i.test(item))).toBe(false);
+    expect(MODES.software.projects).toEqual([
+      "canary",
+      "sip",
+      "passage",
+      "chainsentinel",
+      "hookline",
+      "shadowcall",
+      "rainscene",
+      "designmd",
+      "peg",
+      "sf",
+      "luffa",
+      "htw",
+      "gofish",
+      "foodo",
+      "bank",
+      "hyper",
+      "weather",
+      "attend",
+    ]);
+    expect(MODES.electronics.projects).toEqual([
+      "sip",
+      "sf",
+      "luffa",
+      "htw",
+      "pic",
+      "asm",
+      "verilog",
+      "weather",
+      "robot",
+      "voice",
+      "rc",
+    ]);
+  });
+
+  it("lists the hackathon results, with five headline wins", () => {
+    expect(HACKS.map((h) => [h.place, h.project, h.date, h.event])).toEqual([
+      ["1st", "Canary", "Nov 2026", "Grok Bot Real Estate Hackathon · V7"],
+      ["2nd", "Passage", "Oct 2026", "The PROBLEM day"],
+      ["Award", "ChainSentinel", "Oct 2026", "Mubit Night Shift · Best Use Case of Banyan Sapling"],
+      ["1st", "StreamFlow", "Jul 2025", "Brunel Hack 25 · Radix bounty"],
+      ["3rd", "LuffaBot", "Jul 2025", "Brunel Hack 25 · Luffa bounty"],
+      ["1st", "Hack the Wallet", "Apr 2025", "Encode AI London Hackathon"],
+      ["3rd", "Foodo-Baggins", "Feb 2025", "Royal Hackaway v8 · Verdn track"],
+    ]);
     expect(HACKS.filter((h) => h.place === "1st")).toHaveLength(3);
-    expect(HACKS.filter((h) => h.place === "3rd")).toHaveLength(1);
-    expect(HACKS.filter((h) => h.place === "Finalist")).toHaveLength(1);
+    expect(HACKS.filter((h) => h.place === "2nd")).toHaveLength(1);
+    expect(HACKS.filter((h) => h.place === "Award")).toHaveLength(1);
+    expect(HACKS.filter((h) => h.place === "3rd")).toHaveLength(2);
+    expect(HACKS.filter((h) => h.place === "Finalist")).toHaveLength(0);
+    expect(HACKS.some((h) => h.project === "Go Fish" || h.event.includes("Polkadot"))).toBe(false);
+    expect(STATS.find((s) => s.label === "hackathon wins")?.n).toBe(5);
+    expect(STATS.find((s) => s.label === "projects built")?.n).toBe(20);
+    expect(MODES.software.line).toContain("Five hackathon wins");
+    expect(TICKER[0]).toBe("5 hackathon wins");
+  });
+
+  it("corrects the dated projects and drops the old Brunel first-place claim", () => {
+    expect(PROJECTS.foodo.date).toBe("Feb 2025");
+    expect(PROJECTS.sf.date).toBe("Jul 2025");
+    expect(PROJECTS.sf.badge).toBe("1st · Radix bounty");
+    expect(PROJECTS.luffa.date).toBe("Jul 2025");
+    expect(PROJECTS.luffa.badge).toBe("3rd · Luffa bounty");
+    expect(PROJECTS.luffa.gold).toBeUndefined();
+    expect(PROJECTS.voice.date).toBe("Jan 2024");
+    expect(PROJECTS.passage.badge).toBe("2nd · The PROBLEM day");
+    expect(PROJECTS.sip.imgs).toEqual(["/projects/sip.jpg"]);
+    expect(PROJECTS.shadowcall.imgs).toEqual(["/projects/shadowcall.jpg"]);
+    expect(PROJECTS.designmd.imgs).toEqual(["/projects/design-md.jpg"]);
+    expect(PROJECTS.designmd.fit).toBe("contain");
+    expect(PROJECTS.canary.imgs?.[0]).toBe("/projects/canary.jpg");
+    expect(PROJECTS.robot.imgs).toEqual(["/projects/object-retriever.jpg"]);
+    expect(PROJECTS.robot.preview).toBe("/projects/object-retriever-loop.mp4");
+    expect(existsSync(pub("/projects/object-retriever.jpg"))).toBe(true);
+    expect(existsSync(pub("/projects/object-retriever-loop.mp4"))).toBe(true);
   });
 
   it("builds icon URLs and monograms", () => {

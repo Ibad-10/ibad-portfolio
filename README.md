@@ -2,7 +2,7 @@
 
 Computer Systems Engineering student at **Brunel University London** (BEng, First Class in both years, ranked 1st of 30), based in London.
 
-I build software and hardware: full-stack and AI projects, blockchain hackathon entries, embedded firmware and PLC logic. I have just finished a 15-month industrial placement at **BMW Group** (Plant Hams Hall), where I worked in logistics planning on controls, automation and data. My final-year project is an AI model for dynamic delivery-route optimisation.
+I build software and hardware: full-stack and AI projects, blockchain hackathon entries, embedded firmware and PLC logic. I have just finished a 15-month industrial placement at **BMW Group** (Plant Hams Hall), where I worked in logistics planning on controls, automation and data.
 
 **Live portfolio:** https://ibad-portfolio-three.vercel.app
 **LinkedIn:** https://www.linkedin.com/in/ibad-ullah-zuberi/ · **Email:** zuberi.ibad@gmail.com
@@ -14,9 +14,9 @@ I build software and hardware: full-stack and AI projects, blockchain hackathon 
 - **EY**, Data Analyst, summer 2024. SAP Analytics Cloud dashboards and forecasting over 20,000+ entries.
 - **Cloud Nebula Enterprises**, Web Developer, summer 2024. A data-analysis web tool handling 60,000+ entries.
 
-**Hackathons:** 1st at Encode AI London (Hack the Wallet), 1st at Brunel University Hack (LuffaBot), 1st at Radix Hack (StreamFlow), 3rd at Royal Hackaway v8 (Foodo-Baggins), finalist at EasyA x Polkadot London (Go Fish).
+**Hackathons:** Five wins. 1st at the Grok Bot Real Estate Hackathon (Canary, Nov 2026, solo), 2nd at The PROBLEM day (Passage, 31 Oct 2026, team), Best Use Case of Banyan Sapling at Mubit Night Shift (ChainSentinel, Oct 2026), 1st at Encode AI London (Hack the Wallet, Apr 2025), 1st in the Radix bounty and 3rd in the Luffa/Endless bounty at Brunel Hack 25 (StreamFlow and LuffaBot, Jul 2025), 3rd at Royal Hackaway v8 (Foodo-Baggins, Feb 2025).
 
-**Things I have built:** [Pegboard](https://getpegboard.co.uk) (a family chore and pocket-money app, live), plus AI agents, Starknet / Polkadot / Radix dApps, and embedded projects on PIC, Arduino and Raspberry Pi Pico.
+**Things I have built:** [Canary](https://canary-eight-murex.vercel.app), [ChainSentinel](https://chainsentinel-nine.vercel.app), [Hookline](https://hookline-one-iota.vercel.app), [Passage](https://passage-gamma.vercel.app) and [Pegboard](https://getpegboard.co.uk), plus AI agents, Starknet / Polkadot / Radix dApps, and embedded projects on PIC, Arduino and Raspberry Pi Pico.
 
 **Skills:** Python, TypeScript, Java, C/C++, SQL, Verilog · Next.js, React, Flask, FastAPI · LangGraph, LangChain · PLC (TIA Portal, WAGO e!COCKPIT), PIC firmware, FPGA · Oracle APEX, SAP.
 
@@ -55,5 +55,5 @@ npm test         # content, privacy and game-logic unit tests
 | `public/lightroom/`, `public/photos/` | Gallery and portrait photos. |
 
 ### Notes
-- Project screenshots load from GitHub `user-attachments` URLs and tech logos from `cdn.simpleicons.org`. If one fails to load it is hidden and a monogram shows instead.
+- Project screenshots live in `public/projects/` or load from GitHub `user-attachments` URLs. Tech logos come from `cdn.simpleicons.org`. If one fails to load it is hidden and a monogram shows instead.
 - Pegboard's source repo is private, so the site links only to the live app.

@@ -47,16 +47,33 @@ function Card({ p, i }: { p: Project; i: number }) {
     <div ref={ref} className="card" onMouseMove={move} onMouseLeave={leave} style={{ animationDelay: `${i * 60}ms` } as CSSProperties}>
       {imgs.length > 0 && (
         <div className="shot" data-shot="1" style={{ background: p.imgBg ?? "#111" }}>
-          {imgs.map((src, j) => (
-            <img
-              key={src}
-              src={src}
-              alt={j === 0 ? `${p.name} screenshot` : ""}
-              loading="lazy"
-              referrerPolicy="no-referrer"
-              style={{ objectFit: p.fit ?? "cover", opacity: j === k ? 1 : 0, transform: j === k && imgs.length > 1 ? "scale(1.04)" : undefined }}
+          {p.preview ? (
+            <video
+              ref={(el) => {
+                if (el) el.muted = true;
+              }}
+              src={p.preview}
+              poster={imgs[0]}
+              muted
+              autoPlay
+              loop
+              playsInline
+              preload="auto"
+              aria-label={`${p.name} demo`}
+              style={{ objectFit: p.fit ?? "cover", objectPosition: "center" }}
             />
-          ))}
+          ) : (
+            imgs.map((src, j) => (
+              <img
+                key={src}
+                src={src}
+                alt={j === 0 ? `${p.name} screenshot` : ""}
+                loading="lazy"
+                referrerPolicy="no-referrer"
+                style={{ objectFit: p.fit ?? "cover", opacity: j === k ? 1 : 0, transform: j === k && imgs.length > 1 ? "scale(1.04)" : undefined }}
+              />
+            ))
+          )}
           {imgs.length > 1 && (
             <div className="segs" aria-hidden="true">
               {imgs.map((_, j) => (
@@ -86,7 +103,7 @@ function Card({ p, i }: { p: Project; i: number }) {
         <div className="links">
           {p.live && (
             <a href={p.live} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-blue">
-              Visit getpegboard.co.uk ↗
+              {p.live.includes("getpegboard.co.uk") ? "Visit getpegboard.co.uk ↗" : "Live ↗"}
             </a>
           )}
           {p.gh && (
