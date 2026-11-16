@@ -91,17 +91,6 @@ export const PROJECTS: Record<string, Project> = {
     desc: "Live calls come in via ElevenLabs. The frontier model answers through Mubit while each sub-task (extract, policy check, form fill, summary) trains its own adapter. A deterministic policy engine, not the model, verifies answers. A sub-task only switches once its adapter beats the frontier on 20+ held-out calls with no missed 999 red flags.",
     tags: ["Python", "FastAPI", "Mubit", "ElevenLabs"],
   },
-  rainscene: {
-    name: "Rain Scene",
-    badge: "Blender · Python",
-    cat: "Creative",
-    date: "Oct 2026",
-    gh: "https://github.com/Ibad-10/rain-scene-blender",
-    imgs: ["/projects/rain-scene-blender.jpg"],
-    fit: "contain",
-    desc: "A 14-second script-built Blender short: a crying close-up, a rainy street, an umbrella thrown into the wind. Everything is built from Python scripts. It uses a MakeHuman character with Mixamo motion capture, particle rain that collides with the umbrella, the body and the street, and a physics-driven umbrella, all rendered in EEVEE with toon shading and Line Art ink.",
-    tags: ["Blender", "Python", "MakeHuman", "Mixamo"],
-  },
   designmd: {
     name: "design-md",
     badge: "Claude Code skill",
@@ -149,7 +138,7 @@ export const MODES: Record<Mode, ModeContent> = {
     word: "software.",
     label: "Software",
     line: "Full-stack and AI engineer. Five hackathon wins, most recently 1st place solo at the Grok Bot Real Estate Hackathon. BMW Group placement, EY data analyst. Next.js, Python, agents and a fair amount of blockchain.",
-    projects: ["canary", "sip", "passage", "chainsentinel", "hookline", "shadowcall", "rainscene", "designmd", "peg", "sf", "luffa", "htw", "gofish", "foodo", "bank", "hyper", "weather", "attend"],
+    projects: ["canary", "sip", "passage", "chainsentinel", "hookline", "shadowcall", "designmd", "peg", "sf", "luffa", "htw", "gofish", "foodo", "bank", "hyper", "weather", "attend"],
     bmw: [
       "Doubled KPI coverage from 13 to 27 with an Oracle APEX logistics dashboard, presented to 60+ colleagues and senior management.",
       "Raised master-data quality from 52% to 61% in one month with an Excel validation workbook.",
